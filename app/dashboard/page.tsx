@@ -90,16 +90,18 @@ export default function DashboardPage() {
       <main className="flex min-h-screen bg-slate-950">
         <Sidebar />
 
-        <section className="flex-1 p-6">
-          <div className="mb-8">
-            <h1 className="text-3xl font-black text-white">Dashboard</h1>
+        <section className="flex-1 px-4 py-5 sm:p-6">
+          <div className="mb-5 rounded-3xl border border-slate-800 bg-slate-900/70 p-5 shadow-xl sm:mb-8 sm:border-0 sm:bg-transparent sm:p-0 sm:shadow-none">
+            <h1 className="text-3xl font-black text-white sm:text-4xl">
+              Dashboard
+            </h1>
 
-            <p className="mt-2 text-slate-400">
+            <p className="mt-2 text-sm leading-6 text-slate-400 sm:text-base">
               Monitoramento operacional em tempo real.
             </p>
           </div>
 
-          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+          <div className="grid grid-cols-2 gap-3 sm:gap-5 md:grid-cols-2 xl:grid-cols-4">
             <Card
               href="/vigilantes"
               title="Vigilantes"
@@ -129,7 +131,7 @@ export default function DashboardPage() {
             />
           </div>
 
-          <div className="mt-10 grid gap-5 lg:grid-cols-3">
+          <div className="mt-5 grid grid-cols-3 gap-3 sm:mt-10 sm:gap-5 lg:grid-cols-3">
             <StatusCard
               href="/vigilantes?status=Ativo"
               title="Vigilantes ativos"
@@ -152,7 +154,7 @@ export default function DashboardPage() {
             />
           </div>
 
-          <div className="mt-5 grid gap-5 lg:grid-cols-3">
+          <div className="mt-3 grid grid-cols-3 gap-3 sm:mt-5 sm:gap-5 lg:grid-cols-3">
             <StatusCard
               href="/rondas?status=Pendente"
               title="Rondas pendentes"
@@ -175,7 +177,7 @@ export default function DashboardPage() {
             />
           </div>
 
-          <div className="mt-5 grid gap-5 lg:grid-cols-3">
+          <div className="mt-3 grid grid-cols-3 gap-3 sm:mt-5 sm:gap-5 lg:grid-cols-3">
             <StatusCard
               href="/ocorrencias?status=Aberta"
               title="Ocorrências abertas"
@@ -198,25 +200,25 @@ export default function DashboardPage() {
             />
           </div>
 
-          <div className="mt-10 rounded-3xl border border-slate-800 bg-slate-900 p-6">
+          <div className="mt-5 rounded-3xl border border-slate-800 bg-slate-900 p-5 shadow-xl sm:mt-10 sm:p-6">
             <div className="flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-600">
-                <ShieldCheck />
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-red-600 sm:h-12 sm:w-12">
+                <ShieldCheck size={20} />
               </div>
 
               <div>
-                <h2 className="text-xl font-bold text-white">
+                <h2 className="text-lg font-black text-white sm:text-xl">
                   Central Operacional
                 </h2>
 
-                <p className="text-sm text-slate-400">
+                <p className="text-xs leading-5 text-slate-400 sm:text-sm">
                   Thanos Command online e monitorando toda a operação em tempo
                   real.
                 </p>
               </div>
             </div>
 
-            <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            <div className="mt-5 grid grid-cols-2 gap-3 sm:mt-6 sm:gap-4 md:grid-cols-2 xl:grid-cols-4">
               <Info
                 label="Status do sistema"
                 value="Operacional"
@@ -249,19 +251,19 @@ export default function DashboardPage() {
                 ? "/ocorrencias?status=Aberta"
                 : "/ocorrencias"
             }
-            className="mt-10 block rounded-3xl border border-red-500/10 bg-gradient-to-br from-red-500/10 to-slate-900 p-6 transition hover:border-red-500/40 hover:from-red-500/20"
+            className="mt-5 block rounded-3xl border border-red-500/10 bg-gradient-to-br from-red-500/10 to-slate-900 p-5 shadow-xl transition hover:border-red-500/40 hover:from-red-500/20 sm:mt-10 sm:p-6"
           >
             <div className="flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-600/20 text-red-300">
-                <ShieldAlert />
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-red-600/20 text-red-300 sm:h-12 sm:w-12">
+                <ShieldAlert size={20} />
               </div>
 
               <div>
-                <h2 className="text-xl font-bold text-white">
+                <h2 className="text-lg font-black text-white sm:text-xl">
                   Alerta Operacional
                 </h2>
 
-                <p className="text-sm text-slate-300">
+                <p className="text-xs leading-5 text-slate-300 sm:text-sm">
                   {ocorrenciasAbertas > 0
                     ? `${ocorrenciasAbertas} ocorrência(s) aguardando tratativa operacional. Clique para visualizar.`
                     : "Nenhuma ocorrência crítica no momento."}
@@ -289,16 +291,20 @@ function Card({
   return (
     <Link
       href={href}
-      className="rounded-3xl border border-slate-800 bg-slate-900 p-6 shadow-xl transition hover:border-red-500/40 hover:bg-slate-800"
+      className="rounded-3xl border border-slate-800 bg-slate-900 p-4 shadow-xl transition hover:border-red-500/40 hover:bg-slate-800 sm:p-6"
     >
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="text-sm text-slate-400">{title}</p>
+          <p className="text-xs font-medium text-slate-400 sm:text-sm">
+            {title}
+          </p>
 
-          <h2 className="mt-3 text-4xl font-black text-white">{value}</h2>
+          <h2 className="mt-2 text-4xl font-black text-white sm:mt-3">
+            {value}
+          </h2>
         </div>
 
-        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-red-500/10 text-red-400">
+        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-500/10 text-red-400 sm:h-14 sm:w-14">
           {icon}
         </div>
       </div>
@@ -320,13 +326,17 @@ function StatusCard({
   return (
     <Link
       href={href}
-      className={`rounded-3xl border p-6 transition hover:scale-[1.01] ${color}`}
+      className={`rounded-3xl border p-3 transition hover:scale-[1.01] sm:p-6 ${color}`}
     >
-      <p className="text-sm font-medium">{title}</p>
+      <p className="min-h-9 text-[11px] font-bold leading-4 sm:min-h-0 sm:text-sm sm:font-medium">
+        {title}
+      </p>
 
-      <h2 className="mt-4 text-5xl font-black">{value}</h2>
+      <h2 className="mt-2 text-3xl font-black sm:mt-4 sm:text-5xl">{value}</h2>
 
-      <p className="mt-3 text-xs opacity-80">Clique para visualizar</p>
+      <p className="mt-2 hidden text-xs opacity-80 sm:block">
+        Clique para visualizar
+      </p>
     </Link>
   );
 }
@@ -341,14 +351,16 @@ function Info({
   icon: React.ReactNode;
 }) {
   return (
-    <div className="rounded-2xl bg-slate-950 p-5">
+    <div className="rounded-2xl bg-slate-950 p-4 sm:p-5">
       <div className="flex items-center gap-2 text-slate-400">
         {icon}
 
-        <p className="text-sm">{label}</p>
+        <p className="text-xs sm:text-sm">{label}</p>
       </div>
 
-      <h3 className="mt-3 text-lg font-bold text-white">{value}</h3>
+      <h3 className="mt-2 text-sm font-bold text-white sm:mt-3 sm:text-lg">
+        {value}
+      </h3>
     </div>
   );
 }

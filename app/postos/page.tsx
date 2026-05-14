@@ -175,58 +175,60 @@ export default function PostosPage() {
       <main className="flex min-h-screen bg-slate-950">
         <Sidebar />
 
-        <section className="flex-1 p-6">
-          <div className="mb-8">
-            <h1 className="text-3xl font-black text-white">Postos</h1>
+        <section className="flex-1 px-4 py-5 sm:p-6">
+          <div className="mb-5 rounded-3xl border border-slate-800 bg-slate-900/70 p-5 shadow-xl sm:mb-8 sm:border-0 sm:bg-transparent sm:p-0 sm:shadow-none">
+            <h1 className="text-3xl font-black text-white sm:text-4xl">
+              Postos
+            </h1>
 
-            <p className="mt-2 text-slate-400">
+            <p className="mt-2 text-sm leading-6 text-slate-400 sm:text-base">
               Cadastro de clientes, endereços e locais protegidos.
             </p>
           </div>
 
-          <div className="grid gap-6 xl:grid-cols-3">
+          <div className="grid gap-5 xl:grid-cols-3">
             <form
               onSubmit={salvarPosto}
-              className="rounded-3xl border border-slate-800 bg-slate-900 p-6 xl:col-span-1"
+              className="rounded-3xl border border-slate-800 bg-slate-900 p-4 shadow-xl sm:p-6 xl:col-span-1"
             >
-              <h2 className="mb-5 flex items-center gap-2 text-xl font-bold text-white">
+              <h2 className="mb-4 flex items-center gap-2 text-lg font-black text-white sm:mb-5 sm:text-xl">
                 {editandoId ? <Edit size={20} /> : <Plus size={20} />}
                 {editandoId ? "Editar posto" : "Novo posto"}
               </h2>
 
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 <input
                   value={nome}
                   onChange={(e) => setNome(e.target.value)}
                   placeholder="Nome do cliente/local"
-                  className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none focus:border-red-500"
+                  className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-white outline-none focus:border-red-500"
                 />
 
                 <input
                   value={endereco}
                   onChange={(e) => setEndereco(e.target.value)}
                   placeholder="Endereço completo"
-                  className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none focus:border-red-500"
+                  className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-white outline-none focus:border-red-500"
                 />
 
                 <input
                   value={responsavel}
                   onChange={(e) => setResponsavel(e.target.value)}
                   placeholder="Responsável no local"
-                  className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none focus:border-red-500"
+                  className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-white outline-none focus:border-red-500"
                 />
 
                 <input
                   value={telefone}
                   onChange={(e) => setTelefone(e.target.value)}
                   placeholder="Telefone do responsável"
-                  className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none focus:border-red-500"
+                  className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-white outline-none focus:border-red-500"
                 />
 
                 <select
                   value={risco}
                   onChange={(e) => setRisco(e.target.value)}
-                  className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none focus:border-red-500"
+                  className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-white outline-none focus:border-red-500"
                 >
                   <option>Baixo</option>
                   <option>Médio</option>
@@ -238,12 +240,12 @@ export default function PostosPage() {
                   onChange={(e) => setObservacoes(e.target.value)}
                   placeholder="Observações operacionais"
                   rows={4}
-                  className="w-full resize-none rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none focus:border-red-500"
+                  className="w-full resize-none rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-white outline-none focus:border-red-500"
                 />
 
                 <button
                   disabled={loading}
-                  className="flex w-full items-center justify-center gap-2 rounded-2xl bg-red-600 px-5 py-4 font-bold text-white shadow-lg shadow-red-600/20 transition hover:bg-red-500 disabled:opacity-60"
+                  className="flex w-full items-center justify-center gap-2 rounded-2xl bg-red-600 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-red-600/20 transition hover:bg-red-500 disabled:opacity-60"
                 >
                   {loading ? (
                     <>
@@ -261,7 +263,7 @@ export default function PostosPage() {
                   <button
                     type="button"
                     onClick={limparFormulario}
-                    className="flex w-full items-center justify-center gap-2 rounded-2xl border border-slate-700 px-5 py-4 font-bold text-slate-300 transition hover:bg-slate-800 hover:text-white"
+                    className="flex w-full items-center justify-center gap-2 rounded-2xl border border-slate-700 px-5 py-3 text-sm font-bold text-slate-300 transition hover:bg-slate-800 hover:text-white"
                   >
                     <X size={18} />
                     Cancelar edição
@@ -270,14 +272,14 @@ export default function PostosPage() {
               </div>
             </form>
 
-            <div className="rounded-3xl border border-slate-800 bg-slate-900 p-6 xl:col-span-2">
+            <div className="rounded-3xl border border-slate-800 bg-slate-900 p-4 shadow-xl sm:p-6 xl:col-span-2">
               <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <div>
-                  <h2 className="text-xl font-bold text-white">
+                  <h2 className="text-lg font-black text-white sm:text-xl">
                     Postos cadastrados
                   </h2>
 
-                  <p className="mt-1 text-sm text-slate-400">
+                  <p className="mt-1 text-xs text-slate-400 sm:text-sm">
                     {postosFiltrados.length} posto(s) encontrado(s)
                   </p>
                 </div>
@@ -292,12 +294,12 @@ export default function PostosPage() {
                     value={busca}
                     onChange={(e) => setBusca(e.target.value)}
                     placeholder="Pesquisar posto..."
-                    className="w-full rounded-2xl border border-slate-700 bg-slate-950 py-3 pl-11 pr-4 text-white outline-none focus:border-red-500"
+                    className="w-full rounded-2xl border border-slate-700 bg-slate-950 py-3 pl-11 pr-4 text-sm text-white outline-none focus:border-red-500"
                   />
                 </div>
               </div>
 
-              <div className="mt-6 grid gap-4 md:grid-cols-2">
+              <div className="mt-5 grid gap-3 sm:mt-6 sm:gap-4 md:grid-cols-2">
                 {postosFiltrados.length === 0 && (
                   <div className="rounded-2xl border border-slate-800 bg-slate-950 p-5 text-slate-400">
                     Nenhum posto encontrado.
@@ -307,7 +309,7 @@ export default function PostosPage() {
                 {postosFiltrados.map((posto) => (
                   <div
                     key={posto.id}
-                    className="relative rounded-3xl border border-slate-800 bg-slate-950 p-5"
+                    className="relative rounded-3xl border border-slate-800 bg-slate-950 p-4 shadow-xl sm:p-5"
                   >
                     <button
                       type="button"
@@ -327,22 +329,24 @@ export default function PostosPage() {
                       <Edit size={14} />
                     </button>
 
-                    <div className="flex items-start gap-4 pr-16">
-                      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-800 text-red-400">
+                    <div className="flex items-start gap-3 pr-16 sm:gap-4">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-800 text-red-400 sm:h-14 sm:w-14">
                         <Building2 />
                       </div>
 
                       <div>
-                        <h3 className="font-bold text-white">{posto.nome}</h3>
+                        <h3 className="text-sm font-black text-white sm:text-base">
+                          {posto.nome}
+                        </h3>
 
-                        <p className="mt-1 flex items-center gap-1 text-sm text-slate-400">
+                        <p className="mt-1 flex items-center gap-1 text-xs text-slate-400 sm:text-sm">
                           <MapPinned size={14} />
                           {posto.endereco}
                         </p>
                       </div>
                     </div>
 
-                    <div className="mt-5 space-y-2 text-sm text-slate-300">
+                    <div className="mt-4 grid grid-cols-2 gap-2 text-xs text-slate-300 sm:mt-5 sm:block sm:space-y-2 sm:text-sm">
                       <p>
                         <span className="text-slate-500">Responsável:</span>{" "}
                         {posto.responsavel}

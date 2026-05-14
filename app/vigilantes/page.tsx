@@ -247,10 +247,12 @@ function VigilantesContent() {
       <main className="flex min-h-screen bg-slate-950">
         <Sidebar />
 
-        <section className="flex-1 p-6">
-          <div className="mb-8">
-            <h1 className="text-3xl font-black text-white">Vigilantes</h1>
-            <p className="mt-2 text-slate-400">
+        <section className="flex-1 px-4 py-5 sm:p-6">
+          <div className="mb-5 rounded-3xl border border-slate-800 bg-slate-900/70 p-5 shadow-xl sm:mb-8 sm:border-0 sm:bg-transparent sm:p-0 sm:shadow-none">
+            <h1 className="text-3xl font-black text-white sm:text-4xl">
+              Vigilantes
+            </h1>
+            <p className="mt-2 text-sm leading-6 text-slate-400 sm:text-base">
               Cadastro e controle da equipe operacional.
             </p>
 
@@ -261,31 +263,31 @@ function VigilantesContent() {
             )}
           </div>
 
-          <div className="grid gap-6 xl:grid-cols-3">
+          <div className="grid gap-5 xl:grid-cols-3">
             <form
               onSubmit={salvarVigilante}
-              className="rounded-3xl border border-slate-800 bg-slate-900 p-6 xl:col-span-1"
+              className="rounded-3xl border border-slate-800 bg-slate-900 p-4 shadow-xl sm:p-6 xl:col-span-1"
             >
-              <h2 className="mb-5 flex items-center gap-2 text-xl font-bold text-white">
+              <h2 className="mb-4 flex items-center gap-2 text-lg font-black text-white sm:mb-5 sm:text-xl">
                 {editandoId ? <Edit size={20} /> : <Plus size={20} />}
                 {editandoId ? "Editar vigilante" : "Novo vigilante"}
               </h2>
 
-              <label className="mb-5 flex cursor-pointer flex-col items-center justify-center rounded-3xl border border-dashed border-slate-700 bg-slate-950 p-6 text-center">
+              <label className="mb-4 flex cursor-pointer flex-col items-center justify-center rounded-3xl border border-dashed border-slate-700 bg-slate-950 p-4 text-center sm:mb-5 sm:p-6">
                 {preview ? (
                   <img
                     src={preview}
                     alt="Preview"
-                    className="h-28 w-28 rounded-full object-cover"
+                    className="h-24 w-24 rounded-full object-cover sm:h-28 sm:w-28 rounded-full object-cover"
                   />
                 ) : fotoAtualUrl ? (
                   <img
                     src={fotoAtualUrl}
                     alt="Foto atual"
-                    className="h-28 w-28 rounded-full object-cover"
+                    className="h-24 w-24 rounded-full object-cover sm:h-28 sm:w-28 rounded-full object-cover"
                   />
                 ) : (
-                  <div className="flex h-28 w-28 items-center justify-center rounded-full bg-slate-800 text-slate-400">
+                  <div className="flex h-24 w-24 items-center justify-center rounded-full bg-slate-800 text-slate-400 sm:h-28 sm:w-28">
                     <Camera size={34} />
                   </div>
                 )}
@@ -302,53 +304,53 @@ function VigilantesContent() {
                 />
               </label>
 
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 <input
                   value={re}
                   onChange={(e) => setRe(e.target.value)}
                   placeholder="RE do vigilante"
-                  className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none focus:border-red-500"
+                  className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-white outline-none focus:border-red-500"
                 />
 
                 <input
                   value={nome}
                   onChange={(e) => setNome(e.target.value)}
                   placeholder="Nome completo"
-                  className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none focus:border-red-500"
+                  className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-white outline-none focus:border-red-500"
                 />
 
                 <input
                   value={telefone}
                   onChange={(e) => setTelefone(e.target.value)}
                   placeholder="Telefone"
-                  className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none focus:border-red-500"
+                  className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-white outline-none focus:border-red-500"
                 />
 
                 <input
                   value={codigoAcesso}
                   onChange={(e) => setCodigoAcesso(e.target.value)}
                   placeholder="Código de acesso operacional"
-                  className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none focus:border-red-500"
+                  className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-white outline-none focus:border-red-500"
                 />
 
                 <input
                   value={posto}
                   onChange={(e) => setPosto(e.target.value)}
                   placeholder="Posto atual"
-                  className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none focus:border-red-500"
+                  className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-white outline-none focus:border-red-500"
                 />
 
                 <input
                   value={escala}
                   onChange={(e) => setEscala(e.target.value)}
                   placeholder="Escala. Ex: 12x36 Noturno"
-                  className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none focus:border-red-500"
+                  className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-white outline-none focus:border-red-500"
                 />
 
                 <select
                   value={status}
                   onChange={(e) => setStatus(e.target.value)}
-                  className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none focus:border-red-500"
+                  className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-white outline-none focus:border-red-500"
                 >
                   <option>Ativo</option>
                   <option>Folga</option>
@@ -358,7 +360,7 @@ function VigilantesContent() {
 
                 <button
                   disabled={loading}
-                  className="flex w-full items-center justify-center gap-2 rounded-2xl bg-red-600 px-5 py-4 font-bold text-white shadow-lg shadow-red-600/20 transition hover:bg-red-500 disabled:opacity-60"
+                  className="flex w-full items-center justify-center gap-2 rounded-2xl bg-red-600 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-red-600/20 transition hover:bg-red-500 disabled:opacity-60"
                 >
                   {loading ? (
                     <>
@@ -376,7 +378,7 @@ function VigilantesContent() {
                   <button
                     type="button"
                     onClick={limparFormulario}
-                    className="flex w-full items-center justify-center gap-2 rounded-2xl border border-slate-700 px-5 py-4 font-bold text-slate-300 transition hover:bg-slate-800 hover:text-white"
+                    className="flex w-full items-center justify-center gap-2 rounded-2xl border border-slate-700 px-5 py-3 text-sm font-bold text-slate-300 transition hover:bg-slate-800 hover:text-white"
                   >
                     <X size={18} />
                     Cancelar edição
@@ -385,14 +387,14 @@ function VigilantesContent() {
               </div>
             </form>
 
-            <div className="rounded-3xl border border-slate-800 bg-slate-900 p-6 xl:col-span-2">
+            <div className="rounded-3xl border border-slate-800 bg-slate-900 p-4 shadow-xl sm:p-6 xl:col-span-2">
               <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <div>
-                  <h2 className="text-xl font-bold text-white">
+                  <h2 className="text-lg font-black text-white sm:text-xl">
                     Lista de vigilantes
                   </h2>
 
-                  <p className="mt-1 text-sm text-slate-400">
+                  <p className="mt-1 text-xs text-slate-400 sm:text-sm">
                     {vigilantesFiltrados.length} vigilante(s) encontrado(s)
                   </p>
                 </div>
@@ -407,12 +409,12 @@ function VigilantesContent() {
                     value={busca}
                     onChange={(e) => setBusca(e.target.value)}
                     placeholder="Pesquisar por nome, RE, posto..."
-                    className="w-full rounded-2xl border border-slate-700 bg-slate-950 py-3 pl-11 pr-4 text-white outline-none focus:border-red-500"
+                    className="w-full rounded-2xl border border-slate-700 bg-slate-950 py-3 pl-11 pr-4 text-sm text-white outline-none focus:border-red-500"
                   />
                 </div>
               </div>
 
-              <div className="mt-6 grid gap-4 md:grid-cols-2">
+              <div className="mt-5 grid gap-3 sm:mt-6 sm:gap-4 md:grid-cols-2">
                 {vigilantesFiltrados.length === 0 && (
                   <div className="rounded-2xl border border-slate-800 bg-slate-950 p-5 text-slate-400">
                     Nenhum vigilante encontrado.
@@ -422,7 +424,7 @@ function VigilantesContent() {
                 {vigilantesFiltrados.map((vigilante) => (
                   <div
                     key={vigilante.id}
-                    className="relative rounded-3xl border border-slate-800 bg-slate-950 p-5"
+                    className="relative rounded-3xl border border-slate-800 bg-slate-950 p-4 shadow-xl sm:p-5"
                   >
                     <button
                       type="button"
@@ -451,40 +453,40 @@ function VigilantesContent() {
                       <MessageCircle size={14} />
                     </button>
 
-                    <div className="flex items-center gap-4 pr-24">
+                    <div className="flex items-center gap-3 pr-24 sm:gap-4">
                       {vigilante.fotoUrl ? (
                         <img
                           src={vigilante.fotoUrl}
                           alt={vigilante.nome}
-                          className="h-16 w-16 rounded-2xl object-cover"
+                          className="h-14 w-14 rounded-2xl object-cover sm:h-16 sm:w-16"
                         />
                       ) : (
-                        <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-800 text-slate-400">
+                        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-800 text-slate-400 sm:h-16 sm:w-16">
                           <UserRound />
                         </div>
                       )}
 
                       <div>
-                        <h3 className="font-bold text-white">
+                        <h3 className="text-sm font-black text-white sm:text-base">
                           {vigilante.nome}
                         </h3>
 
-                        <p className="text-sm font-bold text-red-300">
+                        <p className="text-xs font-bold text-red-300 sm:text-sm">
                           RE: {vigilante.re || "Não informado"}
                         </p>
 
-                        <p className="text-sm text-slate-400">
+                        <p className="text-xs text-slate-400 sm:text-sm">
                           {vigilante.telefone}
                         </p>
 
-                        <p className="text-xs text-slate-500">
+                        <p className="text-[11px] text-slate-500 sm:text-xs">
                           Código operacional:{" "}
                           {vigilante.codigoAcesso || "Não definido"}
                         </p>
                       </div>
                     </div>
 
-                    <div className="mt-5 space-y-2 text-sm text-slate-300">
+                    <div className="mt-4 grid grid-cols-2 gap-2 text-xs text-slate-300 sm:mt-5 sm:block sm:space-y-2 sm:text-sm">
                       <p>
                         <span className="text-slate-500">Posto:</span>{" "}
                         {vigilante.posto}

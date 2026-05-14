@@ -344,22 +344,24 @@ export default function OcorrenciasPage() {
       <main className="flex min-h-screen bg-slate-950">
         <Sidebar />
 
-        <section className="flex-1 p-6">
-          <div className="mb-8 flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
+        <section className="flex-1 px-4 py-5 sm:p-6">
+          <div className="mb-5 rounded-3xl border border-slate-800 bg-slate-900/70 p-5 shadow-xl sm:mb-8 sm:border-0 sm:bg-transparent sm:p-0 sm:shadow-none xl:flex xl:flex-row xl:items-end xl:justify-between">
             <div>
-              <h1 className="text-3xl font-black text-white">Ocorrências</h1>
-              <p className="mt-2 text-slate-400">
+              <h1 className="text-3xl font-black text-white sm:text-4xl">
+                Ocorrências
+              </h1>
+              <p className="mt-2 text-sm leading-6 text-slate-400 sm:text-base">
                 Central de ocorrências com evidências, GPS e monitoramento em
                 tempo real.
               </p>
             </div>
 
-            <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-sm font-bold text-emerald-300">
+            <div className="mt-4 rounded-2xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-xs font-bold text-emerald-300 sm:mt-0 sm:text-sm">
               Atualização em tempo real ativa
             </div>
           </div>
 
-          <div className="mb-6 grid gap-4 md:grid-cols-3">
+          <div className="mb-5 grid grid-cols-3 gap-3 sm:mb-6 sm:gap-4 md:grid-cols-3">
             <ResumoCard
               label="Ocorrências abertas"
               value={abertas}
@@ -379,15 +381,15 @@ export default function OcorrenciasPage() {
             />
           </div>
 
-          <div className="mb-6 rounded-3xl border border-slate-800 bg-slate-900 p-6">
-            <div className="mb-5 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <div className="mb-5 rounded-3xl border border-slate-800 bg-slate-900 p-4 shadow-xl sm:mb-6 sm:p-6">
+            <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
               <div>
-                <h2 className="flex items-center gap-2 text-xl font-bold text-white">
-                  <MapPin size={22} className="text-red-400" />
+                <h2 className="flex items-center gap-2 text-lg font-black text-white sm:text-xl">
+                  <MapPin size={20} className="text-red-400" />
                   Mapa da ocorrência
                 </h2>
 
-                <p className="mt-1 text-sm text-slate-400">
+                <p className="mt-1 text-xs leading-5 text-slate-400 sm:text-sm">
                   {ocorrenciaSelecionada
                     ? `${ocorrenciaSelecionada.tipo} • ${ocorrenciaSelecionada.posto}`
                     : "Selecione uma ocorrência com GPS para visualizar."}
@@ -398,7 +400,7 @@ export default function OcorrenciasPage() {
                 <button
                   type="button"
                   onClick={() => abrirGoogleMaps(ocorrenciaSelecionada)}
-                  className="flex items-center justify-center gap-2 rounded-2xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm font-bold text-red-200 transition hover:bg-red-500/20"
+                  className="flex items-center justify-center gap-2 rounded-2xl border border-red-500/30 bg-red-500/10 px-3 py-3 text-xs font-bold text-red-200 transition hover:bg-red-500/20 sm:px-4 sm:text-sm"
                 >
                   <MapPin size={16} />
                   Abrir no Google Maps
@@ -409,7 +411,7 @@ export default function OcorrenciasPage() {
             <OcorrenciaMapa ocorrencia={ocorrenciaSelecionada} />
 
             {ocorrenciaSelecionada && (
-              <div className="mt-5 grid gap-4 md:grid-cols-4">
+              <div className="mt-4 grid grid-cols-2 gap-3 sm:mt-5 sm:gap-4 md:grid-cols-4">
                 <InfoMapa
                   label="Vigilante"
                   value={ocorrenciaSelecionada.vigilante || "Não informado"}
@@ -445,7 +447,7 @@ export default function OcorrenciasPage() {
                   <img
                     src={ocorrenciaSelecionada.fotoUrl}
                     alt={ocorrenciaSelecionada.tipo}
-                    className="h-52 w-full object-cover"
+                    className="h-44 w-full object-cover sm:h-52"
                   />
 
                   <div className="p-3 text-xs font-bold text-slate-300">
@@ -456,31 +458,31 @@ export default function OcorrenciasPage() {
             )}
           </div>
 
-          <div className="grid gap-6 xl:grid-cols-3">
+          <div className="grid gap-5 xl:grid-cols-3">
             <form
               onSubmit={salvarOcorrencia}
-              className="rounded-3xl border border-slate-800 bg-slate-900 p-6 xl:col-span-1"
+              className="rounded-3xl border border-slate-800 bg-slate-900 p-4 shadow-xl sm:p-6 xl:col-span-1"
             >
-              <h2 className="mb-5 flex items-center gap-2 text-xl font-bold text-white">
+              <h2 className="mb-4 flex items-center gap-2 text-lg font-black text-white sm:mb-5 sm:text-xl">
                 {editandoId ? <Edit size={20} /> : <Plus size={20} />}
                 {editandoId ? "Editar ocorrência" : "Nova ocorrência"}
               </h2>
 
-              <label className="mb-5 flex cursor-pointer flex-col items-center justify-center rounded-3xl border border-dashed border-slate-700 bg-slate-950 p-6 text-center">
+              <label className="mb-4 flex cursor-pointer flex-col items-center justify-center rounded-3xl border border-dashed border-slate-700 bg-slate-950 p-4 text-center sm:mb-5 sm:p-6">
                 {preview ? (
                   <img
                     src={preview}
                     alt="Preview da ocorrência"
-                    className="h-36 w-full rounded-2xl object-cover"
+                    className="h-28 w-full rounded-2xl object-cover sm:h-36"
                   />
                 ) : fotoAtualUrl ? (
                   <img
                     src={fotoAtualUrl}
                     alt="Foto atual da ocorrência"
-                    className="h-36 w-full rounded-2xl object-cover"
+                    className="h-28 w-full rounded-2xl object-cover sm:h-36"
                   />
                 ) : (
-                  <div className="flex h-28 w-28 items-center justify-center rounded-full bg-slate-800 text-slate-400">
+                  <div className="flex h-24 w-24 items-center justify-center rounded-full bg-slate-800 text-slate-400 sm:h-28 sm:w-28">
                     <Camera size={34} />
                   </div>
                 )}
@@ -499,11 +501,11 @@ export default function OcorrenciasPage() {
                 />
               </label>
 
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 <select
                   value={tipo}
                   onChange={(e) => setTipo(e.target.value)}
-                  className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none focus:border-red-500"
+                  className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-white outline-none focus:border-red-500"
                 >
                   <option>Ronda irregular</option>
                   <option>Suspeita</option>
@@ -521,7 +523,7 @@ export default function OcorrenciasPage() {
                 <select
                   value={postoSelecionadoId}
                   onChange={(e) => selecionarPosto(e.target.value)}
-                  className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none focus:border-red-500"
+                  className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-white outline-none focus:border-red-500"
                 >
                   <option value="">Selecione o posto</option>
 
@@ -536,13 +538,13 @@ export default function OcorrenciasPage() {
                   value={posto}
                   readOnly
                   placeholder="Posto preenchido automaticamente"
-                  className="w-full rounded-2xl border border-slate-700 bg-slate-900 px-4 py-3 text-slate-300 outline-none"
+                  className="w-full rounded-2xl border border-slate-700 bg-slate-900 px-4 py-3 text-sm text-slate-300 outline-none"
                 />
 
                 <select
                   value={prioridade}
                   onChange={(e) => setPrioridade(e.target.value)}
-                  className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none focus:border-red-500"
+                  className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-white outline-none focus:border-red-500"
                 >
                   <option>Baixa</option>
                   <option>Média</option>
@@ -553,7 +555,7 @@ export default function OcorrenciasPage() {
                 <select
                   value={status}
                   onChange={(e) => setStatus(e.target.value)}
-                  className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none focus:border-red-500"
+                  className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-white outline-none focus:border-red-500"
                 >
                   <option>Aberta</option>
                   <option>Finalizada</option>
@@ -564,13 +566,13 @@ export default function OcorrenciasPage() {
                   value={descricao}
                   onChange={(e) => setDescricao(e.target.value)}
                   placeholder="Descreva a ocorrência com detalhes"
-                  rows={5}
-                  className="w-full resize-none rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none focus:border-red-500"
+                  rows={4}
+                  className="w-full resize-none rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-white outline-none focus:border-red-500"
                 />
 
                 <button
                   disabled={loading}
-                  className="flex w-full items-center justify-center gap-2 rounded-2xl bg-red-600 px-5 py-4 font-bold text-white shadow-lg shadow-red-600/20 transition hover:bg-red-500 disabled:opacity-60"
+                  className="flex w-full items-center justify-center gap-2 rounded-2xl bg-red-600 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-red-600/20 transition hover:bg-red-500 disabled:opacity-60"
                 >
                   {loading ? (
                     <>
@@ -588,7 +590,7 @@ export default function OcorrenciasPage() {
                   <button
                     type="button"
                     onClick={limparFormulario}
-                    className="flex w-full items-center justify-center gap-2 rounded-2xl border border-slate-700 px-5 py-4 font-bold text-slate-300 transition hover:bg-slate-800 hover:text-white"
+                    className="flex w-full items-center justify-center gap-2 rounded-2xl border border-slate-700 px-5 py-3 text-sm font-bold text-slate-300 transition hover:bg-slate-800 hover:text-white"
                   >
                     <X size={18} />
                     Cancelar edição
@@ -597,14 +599,14 @@ export default function OcorrenciasPage() {
               </div>
             </form>
 
-            <div className="rounded-3xl border border-slate-800 bg-slate-900 p-6 xl:col-span-2">
+            <div className="rounded-3xl border border-slate-800 bg-slate-900 p-4 shadow-xl sm:p-6 xl:col-span-2">
               <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <div>
-                  <h2 className="text-xl font-bold text-white">
+                  <h2 className="text-lg font-black text-white sm:text-xl">
                     Ocorrências registradas
                   </h2>
 
-                  <p className="mt-1 text-sm text-slate-400">
+                  <p className="mt-1 text-xs text-slate-400 sm:text-sm">
                     {ocorrenciasFiltradas.length} ocorrência(s) encontrada(s)
                   </p>
                 </div>
@@ -624,7 +626,7 @@ export default function OcorrenciasPage() {
                 </div>
               </div>
 
-              <div className="mt-6 grid gap-4 md:grid-cols-2">
+              <div className="mt-5 grid gap-3 sm:mt-6 sm:gap-4 md:grid-cols-2">
                 {ocorrenciasFiltradas.length === 0 && (
                   <div className="rounded-2xl border border-slate-800 bg-slate-950 p-5 text-slate-400">
                     Nenhuma ocorrência encontrada.
@@ -634,7 +636,7 @@ export default function OcorrenciasPage() {
                 {ocorrenciasFiltradas.map((ocorrencia) => (
                   <div
                     key={ocorrencia.id}
-                    className={`relative overflow-hidden rounded-3xl border transition ${
+                    className={`relative overflow-hidden rounded-3xl border shadow-xl transition ${
                       ocorrenciaSelecionada?.id === ocorrencia.id
                         ? "border-red-500/60 bg-red-500/5"
                         : "border-slate-800 bg-slate-950"
@@ -662,17 +664,17 @@ export default function OcorrenciasPage() {
                       <img
                         src={ocorrencia.fotoUrl}
                         alt={ocorrencia.tipo}
-                        className="h-40 w-full object-cover"
+                        className="h-32 w-full object-cover sm:h-40"
                       />
                     ) : (
-                      <div className="flex h-40 w-full items-center justify-center bg-slate-900 text-slate-500">
+                      <div className="flex h-32 w-full items-center justify-center bg-slate-900 text-slate-500 sm:h-40">
                         <AlertTriangle size={40} />
                       </div>
                     )}
 
-                    <div className="p-5">
+                    <div className="p-4 sm:p-5">
                       <div className="mb-3 flex items-center justify-between gap-3 pr-16">
-                        <h3 className="font-bold text-white">
+                        <h3 className="text-sm font-black text-white sm:text-base">
                           {ocorrencia.tipo}
                         </h3>
 
@@ -685,13 +687,13 @@ export default function OcorrenciasPage() {
                         </span>
                       </div>
 
-                      <p className="mb-2 flex items-center gap-2 text-sm text-slate-400">
+                      <p className="mb-2 flex items-center gap-2 text-xs text-slate-400 sm:text-sm">
                         <AlertTriangle size={15} />
                         {ocorrencia.posto}
                       </p>
 
                       {ocorrencia.vigilante && (
-                        <p className="mb-2 flex items-center gap-2 text-sm text-slate-400">
+                        <p className="mb-2 flex items-center gap-2 text-xs text-slate-400 sm:text-sm">
                           <UserRound size={15} />
                           {ocorrencia.vigilante}{" "}
                           {ocorrencia.re ? `• RE ${ocorrencia.re}` : ""}
@@ -699,21 +701,21 @@ export default function OcorrenciasPage() {
                       )}
 
                       {ocorrencia.data && (
-                        <p className="mb-3 flex items-center gap-2 text-sm text-slate-500">
+                        <p className="mb-3 flex items-center gap-2 text-xs text-slate-500 sm:text-sm">
                           <Clock3 size={15} />
                           {ocorrencia.data}
                         </p>
                       )}
 
-                      <p className="text-sm leading-6 text-slate-300">
+                      <p className="text-xs leading-6 text-slate-300 sm:text-sm">
                         {ocorrencia.descricao}
                       </p>
 
-                      <div className="mt-4 grid gap-2">
+                      <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-1">
                         <button
                           type="button"
                           onClick={() => setOcorrenciaSelecionada(ocorrencia)}
-                          className="flex items-center justify-center gap-2 rounded-2xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm font-bold text-red-200 transition hover:bg-red-500/20"
+                          className="flex items-center justify-center gap-2 rounded-2xl border border-red-500/30 bg-red-500/10 px-3 py-3 text-xs font-bold text-red-200 transition hover:bg-red-500/20 sm:px-4 sm:text-sm"
                         >
                           <Eye size={16} />
                           Ver no mapa
@@ -775,14 +777,18 @@ function ResumoCard({
   icon: React.ReactNode;
 }) {
   return (
-    <div className="rounded-3xl border border-slate-800 bg-slate-900 p-5">
-      <div className="flex items-center justify-between">
+    <div className="rounded-3xl border border-slate-800 bg-slate-900 p-3 shadow-xl sm:p-5">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="text-sm text-slate-400">{label}</p>
-          <h3 className="mt-2 text-3xl font-black text-white">{value}</h3>
+          <p className="min-h-8 text-[11px] font-bold leading-4 text-slate-400 sm:min-h-0 sm:text-sm">
+            {label}
+          </p>
+          <h3 className="mt-1 text-3xl font-black text-white sm:mt-2">
+            {value}
+          </h3>
         </div>
 
-        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-500/10 text-red-400">
+        <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-red-500/10 text-red-400 sm:h-12 sm:w-12">
           {icon}
         </div>
       </div>
@@ -792,9 +798,11 @@ function ResumoCard({
 
 function InfoMapa({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl border border-slate-800 bg-slate-950 p-4">
-      <p className="text-xs text-slate-500">{label}</p>
-      <h3 className="mt-1 font-bold text-white">{value}</h3>
+    <div className="rounded-2xl border border-slate-800 bg-slate-950 p-3 sm:p-4">
+      <p className="text-[11px] text-slate-500 sm:text-xs">{label}</p>
+      <h3 className="mt-1 text-xs font-bold text-white sm:text-base">
+        {value}
+      </h3>
     </div>
   );
 }
@@ -904,7 +912,7 @@ function OcorrenciaMapa({ ocorrencia }: { ocorrencia: Ocorrencia | null }) {
 
   return (
     <div className="overflow-hidden rounded-3xl border border-slate-800 bg-slate-950">
-      <div ref={mapaRef} className="h-[340px] w-full" />
+      <div ref={mapaRef} className="h-[240px] w-full sm:h-[340px]" />
 
       {!obterCoordenadaOcorrencia(ocorrencia) && (
         <div className="border-t border-slate-800 p-4 text-sm text-slate-400">

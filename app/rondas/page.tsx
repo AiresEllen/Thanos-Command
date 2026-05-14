@@ -381,18 +381,20 @@ export default function RondasPage() {
       <main className="flex min-h-screen bg-slate-950">
         <Sidebar />
 
-        <section className="flex-1 p-6">
-          <div className="mb-8 flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
+        <section className="flex-1 px-4 py-5 sm:p-6">
+          <div className="mb-5 rounded-3xl border border-slate-800 bg-slate-900/70 p-5 shadow-xl sm:mb-8 sm:flex sm:flex-col sm:gap-4 sm:border-0 sm:bg-transparent sm:p-0 sm:shadow-none xl:flex-row xl:items-end xl:justify-between">
             <div>
-              <h1 className="text-3xl font-black text-white">Rondas</h1>
+              <h1 className="text-3xl font-black text-white sm:text-4xl">
+                Rondas
+              </h1>
 
-              <p className="mt-2 text-slate-400">
+              <p className="mt-2 text-sm leading-6 text-slate-400 sm:text-base">
                 Controle operacional com GPS, fotos e mapa em tempo real.
               </p>
             </div>
 
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <div className="flex w-full items-center justify-center gap-2 rounded-2xl border border-emerald-500/20 bg-emerald-500/10 px-5 py-3 text-sm font-bold text-emerald-300 xl:w-auto">
+            <div className="mt-4 grid grid-cols-2 gap-3 sm:mt-0 sm:flex sm:flex-row">
+              <div className="flex w-full items-center justify-center gap-2 rounded-2xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-xs font-bold text-emerald-300 sm:px-5 sm:text-sm xl:w-auto">
                 <Radar size={16} />
                 Tempo real ativo
               </div>
@@ -400,15 +402,15 @@ export default function RondasPage() {
               <button
                 type="button"
                 onClick={carregarRondas}
-                className="flex w-full items-center justify-center gap-2 rounded-2xl border border-slate-700 bg-slate-900 px-5 py-3 text-sm font-bold text-slate-200 transition hover:bg-slate-800 xl:w-auto"
+                className="flex w-full items-center justify-center gap-2 rounded-2xl border border-slate-700 bg-slate-900 px-4 py-3 text-xs font-bold text-slate-200 transition hover:bg-slate-800 sm:px-5 sm:text-sm xl:w-auto"
               >
                 <RefreshCw size={16} />
-                Atualizar manualmente
+                Atualizar
               </button>
             </div>
           </div>
 
-          <div className="mb-6 grid gap-4 md:grid-cols-3">
+          <div className="mb-5 grid grid-cols-3 gap-3 sm:mb-6 sm:gap-4 md:grid-cols-3">
             <ResumoCard
               label="Rondas registradas"
               value={rondas.length}
@@ -426,15 +428,15 @@ export default function RondasPage() {
             />
           </div>
 
-          <div className="mb-6 rounded-3xl border border-slate-800 bg-slate-900 p-6">
-            <div className="mb-5 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <div className="mb-5 rounded-3xl border border-slate-800 bg-slate-900 p-4 shadow-xl sm:mb-6 sm:p-6">
+            <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
               <div>
-                <h2 className="flex items-center gap-2 text-xl font-bold text-white">
-                  <MapPinned size={22} className="text-red-400" />
-                  Mapa operacional da ronda
+                <h2 className="flex items-center gap-2 text-lg font-black text-white sm:text-xl">
+                  <MapPinned size={20} className="text-red-400" />
+                  Mapa operacional
                 </h2>
 
-                <p className="mt-1 text-sm text-slate-400">
+                <p className="mt-1 text-xs leading-5 text-slate-400 sm:text-sm">
                   {rondaParaMapa
                     ? `${rondaParaMapa.vigilante} • ${rondaParaMapa.posto}`
                     : "Selecione uma ronda com pontos GPS para visualizar no mapa."}
@@ -445,7 +447,7 @@ export default function RondasPage() {
                 <button
                   type="button"
                   onClick={() => setRondaSelecionada(null)}
-                  className="flex items-center justify-center gap-2 rounded-2xl border border-slate-700 px-4 py-2 text-sm font-bold text-slate-300 transition hover:bg-slate-800"
+                  className="flex items-center justify-center gap-2 rounded-2xl border border-slate-700 px-4 py-3 text-xs font-bold text-slate-300 transition hover:bg-slate-800 sm:py-2 sm:text-sm"
                 >
                   <X size={16} />
                   Limpar seleção
@@ -456,7 +458,7 @@ export default function RondasPage() {
             <RondaMapa ronda={rondaParaMapa} />
 
             {rondaParaMapa && (
-              <div className="mt-5 grid gap-4 md:grid-cols-4">
+              <div className="mt-4 grid grid-cols-2 gap-3 sm:mt-5 sm:gap-4 md:grid-cols-4">
                 <InfoMapa
                   label="Status"
                   value={rondaParaMapa.status || "Não informado"}
@@ -486,7 +488,7 @@ export default function RondasPage() {
                   Evidências fotográficas
                 </h3>
 
-                <div className="grid gap-3 md:grid-cols-4">
+                <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
                   {rondaParaMapa.fotos.map((foto, index) => (
                     <a
                       key={`${foto.url}-${index}`}
@@ -518,21 +520,21 @@ export default function RondasPage() {
             )}
           </div>
 
-          <div className="grid gap-6 xl:grid-cols-3">
+          <div className="grid gap-5 xl:grid-cols-3">
             <form
               onSubmit={cadastrarRonda}
-              className="rounded-3xl border border-slate-800 bg-slate-900 p-6 xl:col-span-1"
+              className="rounded-3xl border border-slate-800 bg-slate-900 p-4 shadow-xl sm:p-6 xl:col-span-1"
             >
-              <h2 className="mb-5 flex items-center gap-2 text-xl font-bold text-white">
+              <h2 className="mb-4 flex items-center gap-2 text-lg font-black text-white sm:mb-5 sm:text-xl">
                 <Plus size={20} />
                 Nova ronda
               </h2>
 
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 <select
                   value={vigilanteSelecionadoId}
                   onChange={(e) => selecionarVigilante(e.target.value)}
-                  className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none focus:border-red-500"
+                  className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-white outline-none focus:border-red-500"
                 >
                   <option value="">Selecione o vigilante</option>
 
@@ -549,20 +551,20 @@ export default function RondasPage() {
                   value={re}
                   readOnly
                   placeholder="RE preenchido automaticamente"
-                  className="w-full rounded-2xl border border-slate-700 bg-slate-900 px-4 py-3 text-slate-300 outline-none"
+                  className="w-full rounded-2xl border border-slate-700 bg-slate-900 px-4 py-3 text-sm text-slate-300 outline-none"
                 />
 
                 <input
                   value={vigilante}
                   readOnly
                   placeholder="Nome preenchido automaticamente"
-                  className="w-full rounded-2xl border border-slate-700 bg-slate-900 px-4 py-3 text-slate-300 outline-none"
+                  className="w-full rounded-2xl border border-slate-700 bg-slate-900 px-4 py-3 text-sm text-slate-300 outline-none"
                 />
 
                 <select
                   value={postoSelecionadoId}
                   onChange={(e) => selecionarPosto(e.target.value)}
-                  className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none focus:border-red-500"
+                  className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-white outline-none focus:border-red-500"
                 >
                   <option value="">Selecione o posto</option>
 
@@ -577,13 +579,13 @@ export default function RondasPage() {
                   value={posto}
                   readOnly
                   placeholder="Posto preenchido automaticamente"
-                  className="w-full rounded-2xl border border-slate-700 bg-slate-900 px-4 py-3 text-slate-300 outline-none"
+                  className="w-full rounded-2xl border border-slate-700 bg-slate-900 px-4 py-3 text-sm text-slate-300 outline-none"
                 />
 
                 <select
                   value={turno}
                   onChange={(e) => setTurno(e.target.value)}
-                  className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none focus:border-red-500"
+                  className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-white outline-none focus:border-red-500"
                 >
                   <option>Diurno</option>
                   <option>Noturno</option>
@@ -595,13 +597,13 @@ export default function RondasPage() {
                   value={observacoes}
                   onChange={(e) => setObservacoes(e.target.value)}
                   placeholder="Observações da ronda"
-                  rows={5}
-                  className="w-full resize-none rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none focus:border-red-500"
+                  rows={4}
+                  className="w-full resize-none rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-white outline-none focus:border-red-500"
                 />
 
                 <button
                   disabled={loading}
-                  className="flex w-full items-center justify-center gap-2 rounded-2xl bg-red-600 px-5 py-4 font-bold text-white transition hover:bg-red-500 disabled:opacity-60"
+                  className="flex w-full items-center justify-center gap-2 rounded-2xl bg-red-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-red-500 disabled:opacity-60"
                 >
                   {loading ? (
                     <>
@@ -615,14 +617,14 @@ export default function RondasPage() {
               </div>
             </form>
 
-            <div className="rounded-3xl border border-slate-800 bg-slate-900 p-6 xl:col-span-2">
+            <div className="rounded-3xl border border-slate-800 bg-slate-900 p-4 shadow-xl sm:p-6 xl:col-span-2">
               <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <div>
-                  <h2 className="text-xl font-bold text-white">
+                  <h2 className="text-lg font-black text-white sm:text-xl">
                     Rondas registradas
                   </h2>
 
-                  <p className="mt-1 text-sm text-slate-400">
+                  <p className="mt-1 text-xs text-slate-400 sm:text-sm">
                     {rondasFiltradas.length} encontrada(s)
                   </p>
                 </div>
@@ -642,7 +644,7 @@ export default function RondasPage() {
                 </div>
               </div>
 
-              <div className="mt-6 grid gap-4 md:grid-cols-2">
+              <div className="mt-5 grid gap-3 sm:mt-6 sm:gap-4 md:grid-cols-2">
                 {rondasFiltradas.length === 0 && (
                   <div className="rounded-2xl border border-slate-800 bg-slate-950 p-5 text-slate-400">
                     Nenhuma ronda encontrada.
@@ -652,7 +654,7 @@ export default function RondasPage() {
                 {rondasFiltradas.map((ronda) => (
                   <div
                     key={ronda.id}
-                    className={`relative rounded-3xl border p-5 transition ${
+                    className={`relative rounded-3xl border p-4 transition sm:p-5 ${
                       rondaSelecionada?.id === ronda.id
                         ? "border-red-500/60 bg-red-500/5"
                         : "border-slate-800 bg-slate-950"
@@ -666,28 +668,28 @@ export default function RondasPage() {
                       ×
                     </button>
 
-                    <div className="flex items-start gap-4 pr-8">
-                      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-800 text-red-400">
-                        <Radar />
+                    <div className="flex items-start gap-3 pr-8 sm:gap-4">
+                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-slate-800 text-red-400 sm:h-14 sm:w-14">
+                        <Radar size={20} />
                       </div>
 
                       <div>
-                        <h3 className="font-bold text-white">
+                        <h3 className="text-sm font-black text-white sm:text-base">
                           {ronda.vigilante}
                         </h3>
 
-                        <p className="text-sm font-bold text-red-300">
+                        <p className="text-xs font-bold text-red-300 sm:text-sm">
                           RE: {ronda.re || "Não informado"}
                         </p>
 
-                        <p className="mt-1 flex items-center gap-1 text-sm text-slate-400">
+                        <p className="mt-1 flex items-center gap-1 text-xs text-slate-400 sm:text-sm">
                           <MapPin size={14} />
                           {ronda.posto}
                         </p>
                       </div>
                     </div>
 
-                    <div className="mt-5 space-y-2 text-sm text-slate-300">
+                    <div className="mt-4 grid grid-cols-2 gap-2 text-xs text-slate-300 sm:mt-5 sm:block sm:space-y-2 sm:text-sm">
                       <p>
                         <span className="text-slate-500">Turno:</span>{" "}
                         {ronda.turno}
@@ -726,11 +728,11 @@ export default function RondasPage() {
                       </span>
                     </div>
 
-                    <div className="mt-5 grid gap-2">
+                    <div className="mt-4 grid grid-cols-2 gap-2 sm:mt-5 sm:grid-cols-1">
                       <button
                         type="button"
                         onClick={() => setRondaSelecionada(ronda)}
-                        className="flex items-center justify-center gap-2 rounded-2xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm font-bold text-red-200 transition hover:bg-red-500/20"
+                        className="flex items-center justify-center gap-2 rounded-2xl border border-red-500/30 bg-red-500/10 px-3 py-3 text-xs font-bold text-red-200 transition hover:bg-red-500/20 sm:px-4 sm:text-sm"
                       >
                         <Eye size={16} />
                         Ver no mapa
@@ -740,7 +742,7 @@ export default function RondasPage() {
                         <button
                           type="button"
                           onClick={() => iniciarRonda(ronda)}
-                          className="flex items-center justify-center gap-2 rounded-2xl bg-blue-600 px-4 py-3 text-sm font-bold text-white transition hover:bg-blue-500"
+                          className="flex items-center justify-center gap-2 rounded-2xl bg-blue-600 px-3 py-3 text-xs font-bold text-white transition hover:bg-blue-500 sm:px-4 sm:text-sm"
                         >
                           <Play size={16} />
                           Iniciar ronda
@@ -752,7 +754,7 @@ export default function RondasPage() {
                           <button
                             type="button"
                             onClick={() => registrarPonto(ronda)}
-                            className="flex items-center justify-center gap-2 rounded-2xl border border-slate-700 px-4 py-3 text-sm font-bold text-slate-200 transition hover:bg-slate-800"
+                            className="flex items-center justify-center gap-2 rounded-2xl border border-slate-700 px-3 py-3 text-xs font-bold text-slate-200 transition hover:bg-slate-800 sm:px-4 sm:text-sm"
                           >
                             <MapPin size={16} />
                             Registrar ponto GPS
@@ -761,7 +763,7 @@ export default function RondasPage() {
                           <button
                             type="button"
                             onClick={() => finalizarRonda(ronda)}
-                            className="flex items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-4 py-3 text-sm font-bold text-white transition hover:bg-emerald-500"
+                            className="flex items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-3 py-3 text-xs font-bold text-white transition hover:bg-emerald-500 sm:px-4 sm:text-sm"
                           >
                             <StopCircle size={16} />
                             Finalizar ronda
@@ -790,14 +792,18 @@ function ResumoCard({
   icon: React.ReactNode;
 }) {
   return (
-    <div className="rounded-3xl border border-slate-800 bg-slate-900 p-5">
-      <div className="flex items-center justify-between">
+    <div className="rounded-3xl border border-slate-800 bg-slate-900 p-3 shadow-xl sm:p-5">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="text-sm text-slate-400">{label}</p>
-          <h3 className="mt-2 text-3xl font-black text-white">{value}</h3>
+          <p className="min-h-8 text-[11px] font-bold leading-4 text-slate-400 sm:min-h-0 sm:text-sm">
+            {label}
+          </p>
+          <h3 className="mt-1 text-3xl font-black text-white sm:mt-2">
+            {value}
+          </h3>
         </div>
 
-        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-500/10 text-red-400">
+        <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-red-500/10 text-red-400 sm:h-12 sm:w-12">
           {icon}
         </div>
       </div>
@@ -807,9 +813,11 @@ function ResumoCard({
 
 function InfoMapa({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl border border-slate-800 bg-slate-950 p-4">
-      <p className="text-xs text-slate-500">{label}</p>
-      <h3 className="mt-1 font-bold text-white">{value}</h3>
+    <div className="rounded-2xl border border-slate-800 bg-slate-950 p-3 sm:p-4">
+      <p className="text-[11px] text-slate-500 sm:text-xs">{label}</p>
+      <h3 className="mt-1 text-xs font-bold text-white sm:text-base">
+        {value}
+      </h3>
     </div>
   );
 }
@@ -938,7 +946,7 @@ function RondaMapa({ ronda }: { ronda: Ronda | null }) {
 
   return (
     <div className="overflow-hidden rounded-3xl border border-slate-800 bg-slate-950">
-      <div ref={mapaRef} className="h-[360px] w-full" />
+      <div ref={mapaRef} className="h-[260px] w-full sm:h-[360px]" />
 
       {!ronda && (
         <div className="border-t border-slate-800 p-4 text-sm text-slate-400">

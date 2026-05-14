@@ -312,33 +312,35 @@ export default function RelatoriosPage() {
       <main className="flex min-h-screen bg-slate-950">
         <Sidebar />
 
-        <section className="flex-1 p-6">
-          <div className="mb-8">
-            <h1 className="text-3xl font-black text-white">Relatórios</h1>
+        <section className="flex-1 px-4 py-5 sm:p-6">
+          <div className="mb-5 rounded-3xl border border-slate-800 bg-slate-900/70 p-5 shadow-xl sm:mb-8 sm:border-0 sm:bg-transparent sm:p-0 sm:shadow-none">
+            <h1 className="text-3xl font-black text-white sm:text-4xl">
+              Relatórios
+            </h1>
 
-            <p className="mt-2 text-slate-400">
+            <p className="mt-2 text-sm leading-6 text-slate-400 sm:text-base">
               Gere PDFs profissionais para clientes e operações.
             </p>
           </div>
 
-          <div className="grid gap-6 lg:grid-cols-3">
-            <div className="rounded-3xl border border-slate-800 bg-slate-900 p-6">
-              <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-red-500/10 text-red-400">
+          <div className="grid gap-5 lg:grid-cols-3">
+            <div className="rounded-3xl border border-slate-800 bg-slate-900 p-4 shadow-xl sm:p-6">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-red-500/10 text-red-400 sm:mb-5 sm:h-14 sm:w-14">
                 <FileText />
               </div>
 
-              <h2 className="text-xl font-bold text-white">
+              <h2 className="text-lg font-black text-white sm:text-xl">
                 Relatório operacional
               </h2>
 
-              <p className="mt-3 text-sm leading-6 text-slate-400">
+              <p className="mt-3 text-xs leading-6 text-slate-400 sm:text-sm">
                 Gere relatórios por cliente/posto.
               </p>
 
               <select
                 value={postoSelecionado}
                 onChange={(e) => setPostoSelecionado(e.target.value)}
-                className="mt-5 w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none focus:border-red-500"
+                className="mt-5 w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-white outline-none focus:border-red-500"
               >
                 <option value="">Todos os postos</option>
 
@@ -353,14 +355,14 @@ export default function RelatoriosPage() {
                 value={telefoneWhatsApp}
                 onChange={(e) => setTelefoneWhatsApp(e.target.value)}
                 placeholder="WhatsApp do cliente"
-                className="mt-4 w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none focus:border-red-500"
+                className="mt-4 w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-white outline-none focus:border-red-500"
               />
 
-              <div className="mt-6 space-y-3">
+              <div className="mt-5 space-y-3">
                 <button
                   type="button"
                   onClick={baixarPdf}
-                  className="flex w-full items-center justify-center gap-2 rounded-2xl bg-red-600 px-5 py-4 font-bold text-white transition hover:bg-red-500"
+                  className="flex w-full items-center justify-center gap-2 rounded-2xl bg-red-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-red-500"
                 >
                   <Download size={18} />
                   Baixar PDF
@@ -369,7 +371,7 @@ export default function RelatoriosPage() {
                 <button
                   type="button"
                   onClick={compartilharPdf}
-                  className="flex w-full items-center justify-center gap-2 rounded-2xl border border-slate-700 px-5 py-4 font-bold text-slate-200 transition hover:bg-slate-800"
+                  className="flex w-full items-center justify-center gap-2 rounded-2xl border border-slate-700 px-5 py-3 text-sm font-bold text-slate-200 transition hover:bg-slate-800"
                 >
                   <Share2 size={18} />
                   Compartilhar PDF
@@ -378,7 +380,7 @@ export default function RelatoriosPage() {
                 <button
                   type="button"
                   onClick={abrirWhatsApp}
-                  className="flex w-full items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 py-4 font-bold text-white transition hover:bg-emerald-500"
+                  className="flex w-full items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-emerald-500"
                 >
                   <MessageCircle size={18} />
                   Abrir WhatsApp
@@ -386,12 +388,14 @@ export default function RelatoriosPage() {
               </div>
             </div>
 
-            <div className="rounded-3xl border border-slate-800 bg-slate-900 p-6 lg:col-span-2">
+            <div className="rounded-3xl border border-slate-800 bg-slate-900 p-4 shadow-xl sm:p-6 lg:col-span-2">
               <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
                 <div>
-                  <h2 className="text-xl font-bold text-white">Ocorrências</h2>
+                  <h2 className="text-lg font-black text-white sm:text-xl">
+                    Ocorrências
+                  </h2>
 
-                  <p className="mt-1 text-sm text-slate-400">
+                  <p className="mt-1 text-xs text-slate-400 sm:text-sm">
                     {ocorrenciasSelecionadas.length} selecionada(s)
                   </p>
                 </div>
@@ -406,16 +410,16 @@ export default function RelatoriosPage() {
                     value={busca}
                     onChange={(e) => setBusca(e.target.value)}
                     placeholder="Buscar ocorrência..."
-                    className="w-full rounded-2xl border border-slate-700 bg-slate-950 py-3 pl-11 pr-4 text-white outline-none focus:border-red-500"
+                    className="w-full rounded-2xl border border-slate-700 bg-slate-950 py-3 pl-11 pr-4 text-sm text-white outline-none focus:border-red-500"
                   />
                 </div>
               </div>
 
-              <div className="mt-4 flex gap-2">
+              <div className="mt-4 grid grid-cols-2 gap-2 sm:flex">
                 <button
                   type="button"
                   onClick={selecionarTodasFiltradas}
-                  className="rounded-2xl border border-slate-700 px-4 py-3 text-sm font-bold text-slate-200 transition hover:bg-slate-800"
+                  className="rounded-2xl border border-slate-700 px-4 py-3 text-xs font-bold text-slate-200 transition hover:bg-slate-800 sm:text-sm"
                 >
                   Todas
                 </button>
@@ -423,13 +427,13 @@ export default function RelatoriosPage() {
                 <button
                   type="button"
                   onClick={limparSelecao}
-                  className="rounded-2xl border border-slate-700 px-4 py-3 text-sm font-bold text-slate-200 transition hover:bg-slate-800"
+                  className="rounded-2xl border border-slate-700 px-4 py-3 text-xs font-bold text-slate-200 transition hover:bg-slate-800 sm:text-sm"
                 >
                   Limpar
                 </button>
               </div>
 
-              <div className="mt-6 space-y-3">
+              <div className="mt-5 space-y-3">
                 {ocorrenciasFiltradas.length === 0 && (
                   <div className="rounded-2xl border border-slate-800 bg-slate-950 p-5 text-slate-400">
                     Nenhuma ocorrência encontrada.
@@ -439,7 +443,7 @@ export default function RelatoriosPage() {
                 {ocorrenciasFiltradas.map((ocorrencia) => (
                   <label
                     key={ocorrencia.id}
-                    className="flex cursor-pointer items-start gap-4 rounded-2xl border border-slate-800 bg-slate-950 p-4 transition hover:border-red-500/50"
+                    className="flex cursor-pointer items-start gap-3 rounded-2xl border border-slate-800 bg-slate-950 p-3 shadow-xl transition hover:border-red-500/50 sm:gap-4 sm:p-4"
                   >
                     <input
                       type="checkbox"
@@ -449,13 +453,13 @@ export default function RelatoriosPage() {
                     />
 
                     <div className="flex-1">
-                      <div className="mb-2 flex items-center gap-2 text-xs font-bold text-slate-400">
+                      <div className="mb-2 flex items-center gap-2 text-[11px] font-bold text-slate-400 sm:text-xs">
                         <CalendarDays size={14} />
                         {ocorrencia.dataFormatada || "Sem data"}
                       </div>
 
                       <div className="flex flex-wrap items-center gap-2">
-                        <strong className="text-white">
+                        <strong className="text-sm text-white sm:text-base">
                           {ocorrencia.tipo}
                         </strong>
 
@@ -468,11 +472,11 @@ export default function RelatoriosPage() {
                         </span>
                       </div>
 
-                      <p className="mt-2 text-sm text-slate-400">
+                      <p className="mt-2 text-xs text-slate-400 sm:text-sm">
                         {ocorrencia.posto}
                       </p>
 
-                      <p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-300">
+                      <p className="mt-2 line-clamp-2 text-xs leading-6 text-slate-300 sm:text-sm">
                         {ocorrencia.descricao}
                       </p>
                     </div>
