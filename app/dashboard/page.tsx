@@ -13,6 +13,17 @@ import {
   Users,
 } from "lucide-react";
 
+import {
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+  BarChart,
+  Bar,
+  XAxis,
+  Tooltip,
+} from "recharts";
+
 import { collection, getDocs } from "firebase/firestore";
 
 import { AuthGuard } from "../../components/AuthGuard";
@@ -198,6 +209,114 @@ export default function DashboardPage() {
               value={postosAltoRisco}
               color="bg-orange-500/10 text-orange-300 border-orange-500/20"
             />
+          </div>
+
+          <div className="mt-5 grid gap-5 xl:grid-cols-2">
+            <div className="rounded-3xl border border-slate-800 bg-slate-900 p-4 shadow-xl sm:p-6">
+              <div className="mb-5">
+                <h2 className="text-lg font-black text-white sm:text-xl">
+                  Status das rondas
+                </h2>
+
+                <p className="mt-1 text-xs text-slate-400 sm:text-sm">
+                  Visão operacional em tempo real das rondas.
+                </p>
+              </div>
+
+              <div className="h-[260px] w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart
+                    data={[
+                      {
+                        name: "Pendentes",
+                        total: rondasPendentes,
+                      },
+                      {
+                        name: "Andamento",
+                        total: rondasAndamento,
+                      },
+                      {
+                        name: "Concluídas",
+                        total: rondasConcluidas,
+                      },
+                    ]}
+                  >
+                    <XAxis
+                      dataKey="name"
+                      tick={{ fill: "#cbd5e1", fontSize: 12 }}
+                    />
+
+                    <Tooltip />
+
+                    <Bar
+                      dataKey="total"
+                      radius={[10, 10, 0, 0]}
+                      fill="#dc2626"
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            <div className="rounded-3xl border border-slate-800 bg-slate-900 p-4 shadow-xl sm:p-6">
+              <div className="mb-5">
+                <h2 className="text-lg font-black text-white sm:text-xl">
+                  Ocorrências operacionais
+                </h2>
+
+                <p className="mt-1 text-xs text-slate-400 sm:text-sm">
+                  Distribuição das ocorrências no sistema.
+                </p>
+              </div>
+
+              <div className="h-[260px] w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={[
+                        {
+                          name: "Abertas",
+                          value: ocorrenciasAbertas,
+                        },
+                        {
+                          name: "Finalizadas",
+                          value: ocorrenciasFinalizadas,
+                        },
+                      ]}
+                      dataKey="value"
+                      innerRadius={55}
+                      outerRadius={85}
+                      paddingAngle={5}
+                    >
+                      <Cell fill="#ef4444" />
+                      <Cell fill="#22c55e" />
+                    </Pie>
+
+                    <Tooltip />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+
+              <div className="mt-3 grid grid-cols-2 gap-3">
+                <div className="rounded-2xl bg-red-500/10 p-3 text-center">
+                  <p className="text-xs font-bold text-red-300">Em aberto</p>
+
+                  <h3 className="mt-1 text-2xl font-black text-white">
+                    {ocorrenciasAbertas}
+                  </h3>
+                </div>
+
+                <div className="rounded-2xl bg-emerald-500/10 p-3 text-center">
+                  <p className="text-xs font-bold text-emerald-300">
+                    Finalizadas
+                  </p>
+
+                  <h3 className="mt-1 text-2xl font-black text-white">
+                    {ocorrenciasFinalizadas}
+                  </h3>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div className="mt-5 rounded-3xl border border-slate-800 bg-slate-900 p-5 shadow-xl sm:mt-10 sm:p-6">
