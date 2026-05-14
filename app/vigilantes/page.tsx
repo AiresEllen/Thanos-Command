@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import {
   addDoc,
@@ -41,7 +41,7 @@ type Vigilante = {
   codigoAcesso?: string;
 };
 
-export default function VigilantesPage() {
+function VigilantesContent() {
   const searchParams = useSearchParams();
   const statusFiltro = searchParams.get("status");
 
@@ -511,5 +511,19 @@ export default function VigilantesPage() {
         </section>
       </main>
     </AuthGuard>
+  );
+}
+
+export default function VigilantesPage() {
+  return (
+    <Suspense
+      fallback={
+        <main className="flex min-h-screen items-center justify-center bg-slate-950 text-white">
+          Carregando vigilantes...
+        </main>
+      }
+    >
+      <VigilantesContent />
+    </Suspense>
   );
 }
