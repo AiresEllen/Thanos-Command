@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
 import { signOut } from "firebase/auth";
 import {
   Shield,
@@ -14,6 +15,8 @@ import {
   Settings,
   LogOut,
   BriefcaseBusiness,
+  Menu,
+  X,
 } from "lucide-react";
 
 import { auth } from "../lib/firebase";
@@ -31,6 +34,8 @@ const links = [
 
 export function Sidebar() {
   const router = useRouter();
+  const pathname = usePathname();
+  const [menuAberto, setMenuAberto] = useState(false);
 
   async function sair() {
     await signOut(auth);
@@ -39,6 +44,101 @@ export function Sidebar() {
 
   return (
     <>
+      <div className="sticky top-0 z-50 flex items-center justify-between border-b border-slate-800 bg-slate-950 px-4 py-4 lg:hidden">
+        <div className="flex items-center gap-3">
+          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-red-600 shadow-lg shadow-red-600/20">
+            <Shield className="text-white" size={22} />
+          </div>
+
+          <div>
+            <h1 className="text-sm font-black tracking-wide text-white">
+              THANOS COMMAND
+            </h1>
+
+            <p className="text-xs text-slate-400">Central operacional</p>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => setMenuAberto(true)}
+          className="flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-700 bg-slate-900 text-white"
+        >
+          <Menu size={22} />
+        </button>
+      </div>
+
+      {menuAberto && (
+        <div className="fixed inset-0 z-[60] flex lg:hidden">
+          <div
+            onClick={() => setMenuAberto(false)}
+            className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+          />
+
+          <aside className="relative flex h-full w-[85%] max-w-[320px] flex-col border-r border-slate-800 bg-slate-950 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-slate-800 p-6">
+              <div className="flex items-center gap-3">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-600 shadow-lg shadow-red-600/20">
+                  <Shield className="text-white" />
+                </div>
+
+                <div>
+                  <h1 className="text-lg font-black tracking-wide text-white">
+                    THANOS COMMAND
+                  </h1>
+
+                  <p className="text-sm text-slate-400">Central operacional</p>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setMenuAberto(false)}
+                className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-700 bg-slate-900 text-white"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            <nav className="flex flex-1 flex-col gap-2 p-4">
+              {links.map((link) => {
+                const Icon = link.icon;
+                const ativo = pathname === link.href;
+
+                return (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    onClick={() => setMenuAberto(false)}
+                    className={`flex items-center gap-3 rounded-2xl px-4 py-4 transition ${
+                      ativo
+                        ? "bg-red-600 text-white"
+                        : "text-slate-300 hover:bg-slate-900 hover:text-white"
+                    }`}
+                  >
+                    <Icon size={20} />
+
+                    <span className="font-bold">{link.name}</span>
+                  </Link>
+                );
+              })}
+            </nav>
+
+            <div className="border-t border-slate-800 p-4">
+              <button
+                type="button"
+                onClick={sair}
+                className="flex w-full items-center gap-3 rounded-2xl px-4 py-4 text-slate-300 transition hover:bg-red-600 hover:text-white"
+              >
+                <LogOut size={20} />
+
+                <span className="font-bold">Sair do sistema</span>
+              </button>
+            </div>
+          </aside>
+        </div>
+      )}
+
       <aside className="hidden w-72 border-r border-slate-800 bg-slate-950 lg:flex lg:flex-col">
         <div className="flex items-center gap-3 border-b border-slate-800 p-6">
           <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-600 shadow-lg shadow-red-600/20">
@@ -59,14 +159,20 @@ export function Sidebar() {
         <nav className="flex flex-1 flex-col gap-2 p-4">
           {links.map((link) => {
             const Icon = link.icon;
+            const ativo = pathname === link.href;
 
             return (
               <Link
                 key={link.name}
                 href={link.href}
-                className="flex items-center gap-3 rounded-2xl px-4 py-3 text-slate-300 transition hover:bg-slate-900 hover:text-white"
+                className={`flex items-center gap-3 rounded-2xl px-4 py-3 transition ${
+                  ativo
+                    ? "bg-red-600 text-white"
+                    : "text-slate-300 hover:bg-slate-900 hover:text-white"
+                }`}
               >
                 <Icon size={20} />
+
                 <span className="font-medium">{link.name}</span>
               </Link>
             );
@@ -80,38 +186,11 @@ export function Sidebar() {
             className="flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-slate-300 transition hover:bg-red-600 hover:text-white"
           >
             <LogOut size={20} />
+
             <span className="font-medium">Sair do sistema</span>
           </button>
         </div>
       </aside>
-
-      <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-slate-800 bg-slate-950/95 px-2 py-2 backdrop-blur lg:hidden">
-        <div className="flex gap-2 overflow-x-auto">
-          {links.map((link) => {
-            const Icon = link.icon;
-
-            return (
-              <Link
-                key={link.name}
-                href={link.href}
-                className="flex min-w-[76px] flex-col items-center justify-center gap-1 rounded-2xl px-3 py-2 text-xs font-bold text-slate-300 transition hover:bg-slate-900 hover:text-white"
-              >
-                <Icon size={18} />
-                <span>{link.name}</span>
-              </Link>
-            );
-          })}
-
-          <button
-            type="button"
-            onClick={sair}
-            className="flex min-w-[76px] flex-col items-center justify-center gap-1 rounded-2xl px-3 py-2 text-xs font-bold text-slate-300 transition hover:bg-red-600 hover:text-white"
-          >
-            <LogOut size={18} />
-            <span>Sair</span>
-          </button>
-        </div>
-      </nav>
     </>
   );
 }
