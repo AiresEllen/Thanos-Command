@@ -47,20 +47,19 @@ export function Sidebar() {
       <button
         type="button"
         onClick={() => setMenuAberto(true)}
-        className="fixed bottom-24 left-4 z-50 flex items-center gap-3 rounded-3xl border border-slate-700 bg-slate-950/95 p-3 text-white shadow-2xl shadow-black/40 backdrop-blur lg:hidden"
+        className="fixed left-4 top-4 z-50 flex items-center gap-3 rounded-3xl border border-slate-700 bg-slate-950/95 p-3 text-white shadow-2xl shadow-black/40 backdrop-blur lg:hidden"
       >
-        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-red-600 shadow-lg shadow-red-600/20">
-          <Shield size={22} />
+        <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-red-600 shadow-lg shadow-red-600/20">
+          <Shield size={20} />
         </div>
 
         <div className="text-left">
-          <p className="text-sm font-black leading-4">THANOS</p>
-          <p className="text-sm font-black leading-4">COMMAND</p>
-          <p className="text-xs text-slate-400">Menu</p>
+          <p className="text-xs font-black leading-4">THANOS</p>
+          <p className="text-xs font-black leading-4">COMMAND</p>
         </div>
 
-        <div className="ml-1 flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-700 bg-slate-900">
-          <Menu size={24} />
+        <div className="ml-1 flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-700 bg-slate-900">
+          <Menu size={22} />
         </div>
       </button>
 
