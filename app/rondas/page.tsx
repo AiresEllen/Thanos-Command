@@ -909,22 +909,44 @@ function RondaMapa({ ronda }: { ronda: Ronda | null }) {
       }
 
       coordenadas.forEach((coord, index) => {
+        const primeiro = index === 0;
         const ultimo = index === coordenadas.length - 1;
+
+        let cor = "#ef4444";
+        let titulo = `Ponto ${index + 1}`;
+
+        if (primeiro) {
+          cor = "#f59e0b";
+          titulo = "INÍCIO DA RONDA";
+        }
+
+        if (ultimo) {
+          cor = "#22c55e";
+          titulo = "ÚLTIMA POSIÇÃO";
+        }
 
         const marcador = leaflet
           .circleMarker(coord, {
-            radius: ultimo ? 9 : 7,
-            color: ultimo ? "#22c55e" : "#ef4444",
-            fillColor: ultimo ? "#22c55e" : "#ef4444",
+            radius: ultimo ? 10 : 8,
+            color: cor,
+            fillColor: cor,
             fillOpacity: 1,
             weight: 3,
           })
           .addTo(instanciaRef.current).bindPopup(`
-            <strong>${ultimo ? "Última posição" : `Ponto ${index + 1}`}</strong>
-            <br/>
-            ${pontos[index]?.data || ""}
-            <br/>
-            ${ronda?.vigilante || ""}
+            <div style="min-width:220px">
+              <strong style="font-size:14px">${titulo}</strong>
+              <hr style="margin:8px 0"/>
+              <strong>Vigilante:</strong> ${ronda?.vigilante || "-"}
+              <br/>
+              <strong>Posto:</strong> ${ronda?.posto || "-"}
+              <br/>
+              <strong>Horário:</strong> ${pontos[index]?.data || "-"}
+              <br/>
+              <strong>Latitude:</strong> ${coord[0].toFixed(6)}
+              <br/>
+              <strong>Longitude:</strong> ${coord[1].toFixed(6)}
+            </div>
           `);
 
         marcadoresRef.current.push(marcador);
@@ -970,13 +992,68 @@ function RondaMapa({ ronda }: { ronda: Ronda | null }) {
 
   return (
     <div className="overflow-hidden rounded-3xl border border-slate-800 bg-slate-950">
-      <div ref={mapaRef} className="h-[300px] w-full sm:h-[420px]" />
+      <div ref={mapaRef} className="h-[320px] w-full sm:h-[450px]" />
 
-      {!ronda && (
-        <div className="border-t border-slate-800 p-4 text-sm text-slate-400">
-          Nenhuma ronda com GPS selecionada.
+      <div className="border-t border-slate-800 bg-slate-900 p-4">
+        <div className="grid gap-3 md:grid-cols-3">
+          <div className="rounded-2xl border border-amber-500/20 bg-amber-500/10 p-3">
+            <p className="text-xs font-bold text-amber-300">INÍCIO</p>
+            <p className="mt-1 text-sm text-white">Primeiro ponto registrado</p>
+          </div>
+
+          <div className="rounded-2xl border border-red-500/20 bg-red-500/10 p-3">
+            <p className="text-xs font-bold text-red-300">TRAJETO</p>
+            <p className="mt-1 text-sm text-white">
+              Caminho realizado na ronda
+            </p>
+          </div>
+
+          <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/10 p-3">
+            <p className="text-xs font-bold text-emerald-300">ÚLTIMA POSIÇÃO</p>
+            <p className="mt-1 text-sm text-white">Último GPS recebido</p>
+          </div>
         </div>
-      )}
+
+        {ronda?.pontos && ronda.pontos.length > 0 && (
+          <div className="mt-4 rounded-2xl border border-slate-800 bg-slate-950 p-4">
+            <h3 className="mb-3 text-sm font-black text-white">
+              Histórico operacional
+            </h3>
+
+            <div className="space-y-2">
+              {ronda.pontos.map((ponto, index) => (
+                <div
+                  key={`${ponto.data}-${index}`}
+                  className="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900 px-3 py-2"
+                >
+                  <div>
+                    <p className="text-sm font-bold text-white">
+                      {index === 0
+                        ? "Início da ronda"
+                        : index === ronda.pontos!.length - 1
+                          ? "Última posição"
+                          : `Ponto ${index + 1}`}
+                    </p>
+
+                    <p className="text-xs text-slate-400">{ponto.data}</p>
+                  </div>
+
+                  <div className="text-right text-xs text-slate-500">
+                    <p>Lat: {ponto.latitude.toFixed(5)}</p>
+                    <p>Lng: {ponto.longitude.toFixed(5)}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {!ronda && (
+          <div className="mt-4 text-sm text-slate-400">
+            Nenhuma ronda com GPS selecionada.
+          </div>
+        )}
+      </div>
     </div>
   );
 }
