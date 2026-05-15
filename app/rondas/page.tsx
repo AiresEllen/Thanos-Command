@@ -825,7 +825,8 @@ function InfoMapa({ label, value }: { label: string; value: string }) {
 function RondaMapa({ ronda }: { ronda: Ronda | null }) {
   const mapaRef = useRef<HTMLDivElement | null>(null);
   const instanciaRef = useRef<any>(null);
-  const camadasRef = useRef<any[]>([]);
+  const camadaRotaRef = useRef<any>(null);
+  const marcadoresRef = useRef<any[]>([]);
 
   useEffect(() => {
     let ativo = true;
@@ -845,79 +846,87 @@ function RondaMapa({ ronda }: { ronda: Ronda | null }) {
         document.head.appendChild(link);
       }
 
-      const pontosValidos =
+      const pontos =
         ronda?.pontos?.filter(
           (ponto) =>
             typeof ponto.latitude === "number" &&
             typeof ponto.longitude === "number",
         ) || [];
 
-      const centro = pontosValidos[0]
-        ? ([pontosValidos[0].latitude, pontosValidos[0].longitude] as [
-            number,
-            number,
-          ])
-        : ([-23.55052, -46.633308] as [number, number]);
+      const coordenadas = pontos.map(
+        (ponto) => [ponto.latitude, ponto.longitude] as [number, number],
+      );
+
+      const centro =
+        coordenadas[0] || ([-23.55052, -46.633308] as [number, number]);
 
       if (!instanciaRef.current) {
         instanciaRef.current = leaflet.map(mapaRef.current, {
           center: centro,
-          zoom: pontosValidos.length > 0 ? 17 : 11,
+          zoom: 16,
           zoomControl: true,
         });
 
         leaflet
           .tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-            maxZoom: 20,
             attribution: "&copy; OpenStreetMap",
+            maxZoom: 22,
           })
           .addTo(instanciaRef.current);
       }
 
-      camadasRef.current.forEach((camada) => camada.remove());
-      camadasRef.current = [];
+      marcadoresRef.current.forEach((item) => item.remove());
+      marcadoresRef.current = [];
 
-      if (pontosValidos.length === 0) {
-        instanciaRef.current.setView(centro, 11);
+      if (camadaRotaRef.current) {
+        camadaRotaRef.current.remove();
+        camadaRotaRef.current = null;
+      }
+
+      if (coordenadas.length === 0) {
+        instanciaRef.current.setView(centro, 12);
+
+        setTimeout(() => {
+          instanciaRef.current?.invalidateSize();
+        }, 300);
+
         return;
       }
 
-      const coordenadas = pontosValidos.map(
-        (ponto) => [ponto.latitude, ponto.longitude] as [number, number],
-      );
-
-      coordenadas.forEach((coordenada, index) => {
-        const ponto = pontosValidos[index];
+      coordenadas.forEach((coord, index) => {
+        const ultimo = index === coordenadas.length - 1;
 
         const marcador = leaflet
-          .circleMarker(coordenada, {
-            radius: index === coordenadas.length - 1 ? 9 : 7,
-            color: index === coordenadas.length - 1 ? "#dc2626" : "#2563eb",
-            fillColor: index === coordenadas.length - 1 ? "#dc2626" : "#2563eb",
-            fillOpacity: 0.9,
+          .circleMarker(coord, {
+            radius: ultimo ? 9 : 7,
+            color: ultimo ? "#22c55e" : "#ef4444",
+            fillColor: ultimo ? "#22c55e" : "#ef4444",
+            fillOpacity: 1,
             weight: 3,
           })
-          .addTo(instanciaRef.current)
-          .bindPopup(
-            `<strong>${index === 0 ? "Início" : `Ponto ${index + 1}`}</strong><br/>${ponto.data || "Sem data"}<br/>${ronda?.posto || ""}`,
-          );
+          .addTo(instanciaRef.current).bindPopup(`
+            <strong>${ultimo ? "Última posição" : `Ponto ${index + 1}`}</strong>
+            <br/>
+            ${pontos[index]?.data || ""}
+            <br/>
+            ${ronda?.vigilante || ""}
+          `);
 
-        camadasRef.current.push(marcador);
+        marcadoresRef.current.push(marcador);
       });
 
       if (coordenadas.length > 1) {
-        const linha = leaflet
+        camadaRotaRef.current = leaflet
           .polyline(coordenadas, {
-            color: "#dc2626",
-            weight: 4,
-            opacity: 0.85,
+            color: "#ef4444",
+            weight: 5,
+            opacity: 0.9,
+            smoothFactor: 1,
           })
           .addTo(instanciaRef.current);
 
-        camadasRef.current.push(linha);
-
-        instanciaRef.current.fitBounds(linha.getBounds(), {
-          padding: [30, 30],
+        instanciaRef.current.fitBounds(camadaRotaRef.current.getBounds(), {
+          padding: [40, 40],
         });
       } else {
         instanciaRef.current.setView(coordenadas[0], 18);
@@ -925,7 +934,7 @@ function RondaMapa({ ronda }: { ronda: Ronda | null }) {
 
       setTimeout(() => {
         instanciaRef.current?.invalidateSize();
-      }, 250);
+      }, 300);
     }
 
     montarMapa();
@@ -946,7 +955,7 @@ function RondaMapa({ ronda }: { ronda: Ronda | null }) {
 
   return (
     <div className="overflow-hidden rounded-3xl border border-slate-800 bg-slate-950">
-      <div ref={mapaRef} className="h-[260px] w-full sm:h-[360px]" />
+      <div ref={mapaRef} className="h-[300px] w-full sm:h-[420px]" />
 
       {!ronda && (
         <div className="border-t border-slate-800 p-4 text-sm text-slate-400">
