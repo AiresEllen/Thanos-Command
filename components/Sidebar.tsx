@@ -44,39 +44,35 @@ export function Sidebar() {
 
   return (
     <>
-      <div className="sticky top-0 z-50 flex items-center justify-between border-b border-slate-800 bg-slate-950 px-4 py-4 lg:hidden">
-        <div className="flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-red-600 shadow-lg shadow-red-600/20">
-            <Shield className="text-white" size={22} />
-          </div>
-
-          <div>
-            <h1 className="text-sm font-black tracking-wide text-white">
-              THANOS COMMAND
-            </h1>
-
-            <p className="text-xs text-slate-400">Central operacional</p>
-          </div>
+      <button
+        type="button"
+        onClick={() => setMenuAberto(true)}
+        className="fixed bottom-24 left-4 z-50 flex items-center gap-3 rounded-3xl border border-slate-700 bg-slate-950/95 p-3 text-white shadow-2xl shadow-black/40 backdrop-blur lg:hidden"
+      >
+        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-red-600 shadow-lg shadow-red-600/20">
+          <Shield size={22} />
         </div>
 
-        <button
-          type="button"
-          onClick={() => setMenuAberto(true)}
-          className="flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-700 bg-slate-900 text-white"
-        >
-          <Menu size={22} />
-        </button>
-      </div>
+        <div className="text-left">
+          <p className="text-sm font-black leading-4">THANOS</p>
+          <p className="text-sm font-black leading-4">COMMAND</p>
+          <p className="text-xs text-slate-400">Menu</p>
+        </div>
+
+        <div className="ml-1 flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-700 bg-slate-900">
+          <Menu size={24} />
+        </div>
+      </button>
 
       {menuAberto && (
-        <div className="fixed inset-0 z-[60] flex lg:hidden">
+        <div className="fixed inset-0 z-[70] flex lg:hidden">
           <div
             onClick={() => setMenuAberto(false)}
-            className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/75 backdrop-blur-sm"
           />
 
-          <aside className="relative flex h-full w-[85%] max-w-[320px] flex-col border-r border-slate-800 bg-slate-950 shadow-2xl">
-            <div className="flex items-center justify-between border-b border-slate-800 p-6">
+          <aside className="relative flex h-full w-[86%] max-w-[330px] flex-col border-r border-slate-800 bg-slate-950 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-slate-800 p-5">
               <div className="flex items-center gap-3">
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-600 shadow-lg shadow-red-600/20">
                   <Shield className="text-white" />
@@ -100,7 +96,7 @@ export function Sidebar() {
               </button>
             </div>
 
-            <nav className="flex flex-1 flex-col gap-2 p-4">
+            <nav className="flex flex-1 flex-col gap-2 overflow-y-auto p-4">
               {links.map((link) => {
                 const Icon = link.icon;
                 const ativo = pathname === link.href;
@@ -139,7 +135,7 @@ export function Sidebar() {
         </div>
       )}
 
-      <aside className="hidden w-72 border-r border-slate-800 bg-slate-950 lg:flex lg:flex-col">
+      <aside className="hidden w-72 shrink-0 border-r border-slate-800 bg-slate-950 lg:flex lg:flex-col">
         <div className="flex items-center gap-3 border-b border-slate-800 p-6">
           <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-600 shadow-lg shadow-red-600/20">
             <Shield className="text-white" />
