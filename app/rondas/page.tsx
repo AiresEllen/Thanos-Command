@@ -90,6 +90,7 @@ export default function RondasPage() {
   const [busca, setBusca] = useState("");
   const [loading, setLoading] = useState(false);
   const [rondaSelecionada, setRondaSelecionada] = useState<Ronda | null>(null);
+  const mapaOperacionalRef = useRef<HTMLDivElement | null>(null);
 
   function atualizarRondasEmTela(lista: Ronda[]) {
     setRondas(lista);
@@ -367,6 +368,17 @@ export default function RondasPage() {
     }
   }
 
+  function verRondaNoMapa(ronda: Ronda) {
+    setRondaSelecionada(ronda);
+
+    setTimeout(() => {
+      mapaOperacionalRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }, 150);
+  }
+
   function corStatus(valor: string) {
     if (valor === "Concluída") return "bg-emerald-500/10 text-emerald-300";
     if (valor === "Arquivada") return "bg-slate-500/10 text-slate-300";
@@ -428,7 +440,10 @@ export default function RondasPage() {
             />
           </div>
 
-          <div className="mb-5 rounded-3xl border border-slate-800 bg-slate-900 p-4 shadow-xl sm:mb-6 sm:p-6">
+          <div
+            ref={mapaOperacionalRef}
+            className="mb-5 rounded-3xl border border-slate-800 bg-slate-900 p-4 shadow-xl sm:mb-6 sm:p-6"
+          >
             <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
               <div>
                 <h2 className="flex items-center gap-2 text-lg font-black text-white sm:text-xl">
@@ -731,7 +746,7 @@ export default function RondasPage() {
                     <div className="mt-4 grid grid-cols-2 gap-2 sm:mt-5 sm:grid-cols-1">
                       <button
                         type="button"
-                        onClick={() => setRondaSelecionada(ronda)}
+                        onClick={() => verRondaNoMapa(ronda)}
                         className="flex items-center justify-center gap-2 rounded-2xl border border-red-500/30 bg-red-500/10 px-3 py-3 text-xs font-bold text-red-200 transition hover:bg-red-500/20 sm:px-4 sm:text-sm"
                       >
                         <Eye size={16} />
