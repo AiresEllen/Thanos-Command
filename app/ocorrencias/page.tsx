@@ -121,6 +121,8 @@ export default function OcorrenciasPage() {
   const [preview, setPreview] = useState("");
   const [fotoAtualUrl, setFotoAtualUrl] = useState("");
   const [busca, setBusca] = useState("");
+  const [filtroPeriodo, setFiltroPeriodo] = useState("Todos");
+  const [filtroPrioridade, setFiltroPrioridade] = useState("Todas");
   const [loading, setLoading] = useState(false);
   const [paginaAtual, setPaginaAtual] = useState(1);
 
@@ -167,25 +169,59 @@ export default function OcorrenciasPage() {
 
   useEffect(() => {
     setPaginaAtual(1);
-  }, [busca]);
+  }, [busca, filtroPeriodo, filtroPrioridade]);
 
   const ocorrenciasFiltradas = useMemo(() => {
     const termo = busca.trim().toLowerCase();
 
-    if (!termo) return ocorrencias;
-
     return ocorrencias.filter((ocorrencia) => {
-      return (
+      const dataOcorrencia = ocorrencia.data || "";
+      const agora = new Date();
+      const hoje = agora.toLocaleDateString("pt-BR");
+
+      let periodoValido = true;
+
+      if (filtroPeriodo === "Hoje") {
+        periodoValido = dataOcorrencia.includes(hoje);
+      }
+
+      if (filtroPeriodo === "7 dias") {
+        const seteDiasAtras = new Date();
+        seteDiasAtras.setDate(agora.getDate() - 7);
+
+        periodoValido =
+          new Date(
+            dataOcorrencia.split(" ")[0].split("/").reverse().join("-"),
+          ) >= seteDiasAtras;
+      }
+
+      if (filtroPeriodo === "30 dias") {
+        const trintaDiasAtras = new Date();
+        trintaDiasAtras.setDate(agora.getDate() - 30);
+
+        periodoValido =
+          new Date(
+            dataOcorrencia.split(" ")[0].split("/").reverse().join("-"),
+          ) >= trintaDiasAtras;
+      }
+
+      const prioridadeValida =
+        filtroPrioridade === "Todas" ||
+        ocorrencia.prioridade === filtroPrioridade;
+
+      const buscaValida =
+        !termo ||
         (ocorrencia.tipo || "").toLowerCase().includes(termo) ||
         (ocorrencia.posto || "").toLowerCase().includes(termo) ||
         (ocorrencia.prioridade || "").toLowerCase().includes(termo) ||
         (ocorrencia.status || "").toLowerCase().includes(termo) ||
         (ocorrencia.descricao || "").toLowerCase().includes(termo) ||
         (ocorrencia.re || "").toLowerCase().includes(termo) ||
-        (ocorrencia.vigilante || "").toLowerCase().includes(termo)
-      );
+        (ocorrencia.vigilante || "").toLowerCase().includes(termo);
+
+      return periodoValido && prioridadeValida && buscaValida;
     });
-  }, [busca, ocorrencias]);
+  }, [busca, ocorrencias, filtroPeriodo, filtroPrioridade]);
 
   const abertas = useMemo(() => {
     return ocorrencias.filter((item) => item.status === "Aberta").length;
@@ -703,6 +739,31 @@ export default function OcorrenciasPage() {
                     placeholder="Pesquisar ocorrência..."
                     className="w-full rounded-2xl border border-slate-700 bg-slate-950 py-3 pl-11 pr-4 text-white outline-none focus:border-red-500"
                   />
+                </div>
+
+                <div className="grid grid-cols-2 gap-3 md:w-auto">
+                  <select
+                    value={filtroPeriodo}
+                    onChange={(e) => setFiltroPeriodo(e.target.value)}
+                    className="rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-white outline-none focus:border-red-500"
+                  >
+                    <option>Todos</option>
+                    <option>Hoje</option>
+                    <option>7 dias</option>
+                    <option>30 dias</option>
+                  </select>
+
+                  <select
+                    value={filtroPrioridade}
+                    onChange={(e) => setFiltroPrioridade(e.target.value)}
+                    className="rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-white outline-none focus:border-red-500"
+                  >
+                    <option>Todas</option>
+                    <option>Baixa</option>
+                    <option>Média</option>
+                    <option>Alta</option>
+                    <option>Crítica</option>
+                  </select>
                 </div>
               </div>
 
