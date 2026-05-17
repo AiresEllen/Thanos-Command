@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   addDoc,
+  arrayUnion,
   collection,
   deleteDoc,
   doc,
@@ -40,6 +41,12 @@ type Localizacao = {
   longitude: number;
 };
 
+type TimelineItem = {
+  acao: string;
+  data: string;
+  usuario: string;
+};
+
 type Ocorrencia = {
   id: string;
   tipo: string;
@@ -55,12 +62,21 @@ type Ocorrencia = {
   latitude?: number;
   longitude?: number;
   localizacao?: Localizacao;
+  timeline?: TimelineItem[];
 };
 
 type Posto = {
   id: string;
   nome: string;
 };
+
+function criarRegistroTimeline(acao: string): TimelineItem {
+  return {
+    acao,
+    data: new Date().toLocaleString("pt-BR"),
+    usuario: "Gestor",
+  };
+}
 
 function obterCoordenadaOcorrencia(ocorrencia: Ocorrencia | null) {
   if (!ocorrencia) return null;
@@ -249,6 +265,9 @@ export default function OcorrenciasPage() {
           status,
           descricao,
           fotoUrl,
+          timeline: arrayUnion(
+            criarRegistroTimeline("Ocorrência atualizada pelo gestor"),
+          ),
           atualizadoEm: serverTimestamp(),
         });
 
@@ -263,6 +282,9 @@ export default function OcorrenciasPage() {
           fotoUrl,
           origem: "Painel gestor",
           data: new Date().toLocaleString("pt-BR"),
+          timeline: [
+            criarRegistroTimeline("Ocorrência criada pelo painel gestor"),
+          ],
           criadoEm: serverTimestamp(),
           atualizadoEm: serverTimestamp(),
         });
@@ -302,6 +324,9 @@ export default function OcorrenciasPage() {
     try {
       await updateDoc(doc(db, "ocorrencias", ocorrencia.id), {
         status: novoStatus,
+        timeline: arrayUnion(
+          criarRegistroTimeline(`Status alterado para ${novoStatus}`),
+        ),
         atualizadoEm: serverTimestamp(),
       });
     } catch (error) {
@@ -454,6 +479,43 @@ export default function OcorrenciasPage() {
                     Clique para ampliar
                   </div>
                 </a>
+              </div>
+            )}
+
+            {ocorrenciaSelecionada && (
+              <div className="mt-5 rounded-3xl border border-slate-800 bg-slate-950 p-4">
+                <h3 className="mb-4 flex items-center gap-2 text-sm font-black text-white">
+                  <Clock3 size={16} className="text-red-400" />
+                  Timeline operacional
+                </h3>
+
+                {ocorrenciaSelecionada.timeline &&
+                ocorrenciaSelecionada.timeline.length > 0 ? (
+                  <div className="space-y-3">
+                    {ocorrenciaSelecionada.timeline.map((item, index) => (
+                      <div
+                        key={`${item.data}-${index}`}
+                        className="relative rounded-2xl border border-slate-800 bg-slate-900 p-4"
+                      >
+                        <div className="absolute left-4 top-4 h-3 w-3 rounded-full bg-red-500 shadow-lg shadow-red-500/30" />
+
+                        <div className="pl-6">
+                          <p className="text-sm font-bold text-white">
+                            {item.acao}
+                          </p>
+
+                          <p className="mt-1 text-xs text-slate-400">
+                            {item.data} • {item.usuario}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-sm text-slate-400">
+                    Nenhum histórico operacional registrado ainda.
+                  </p>
+                )}
               </div>
             )}
           </div>
@@ -710,6 +772,31 @@ export default function OcorrenciasPage() {
                       <p className="text-xs leading-6 text-slate-300 sm:text-sm">
                         {ocorrencia.descricao}
                       </p>
+
+                      {ocorrencia.timeline &&
+                        ocorrencia.timeline.length > 0 && (
+                          <div className="mt-3 rounded-2xl border border-slate-800 bg-slate-900 p-3">
+                            <p className="text-[11px] font-bold uppercase tracking-wide text-slate-500">
+                              Última movimentação
+                            </p>
+
+                            <p className="mt-1 text-xs font-bold text-slate-200">
+                              {
+                                ocorrencia.timeline[
+                                  ocorrencia.timeline.length - 1
+                                ]?.acao
+                              }
+                            </p>
+
+                            <p className="mt-1 text-[11px] text-slate-500">
+                              {
+                                ocorrencia.timeline[
+                                  ocorrencia.timeline.length - 1
+                                ]?.data
+                              }
+                            </p>
+                          </div>
+                        )}
 
                       <div className="mt-4 space-y-2">
                         <button
