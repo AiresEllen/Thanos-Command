@@ -400,7 +400,7 @@ export default function OcorrenciasPage() {
                 <button
                   type="button"
                   onClick={() => abrirGoogleMaps(ocorrenciaSelecionada)}
-                  className="flex items-center justify-center gap-2 rounded-2xl border border-red-500/30 bg-red-500/10 px-3 py-3 text-xs font-bold text-red-200 transition hover:bg-red-500/20 sm:px-4 sm:text-sm"
+                  className="flex w-full items-center justify-center gap-2 rounded-2xl border border-red-500/30 bg-red-500/10 px-3 py-3 text-xs font-bold text-red-200 transition hover:bg-red-500/20 sm:px-4 sm:text-sm"
                 >
                   <MapPin size={16} />
                   Abrir no Google Maps
@@ -672,8 +672,8 @@ export default function OcorrenciasPage() {
                       </div>
                     )}
 
-                    <div className="p-4 sm:p-5">
-                      <div className="mb-3 flex items-center justify-between gap-3 pr-16">
+                    <div className="min-w-0 p-4 sm:p-5">
+                      <div className="mb-3 flex flex-col items-start gap-2 pr-16 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
                         <h3 className="text-sm font-black text-white sm:text-base">
                           {ocorrencia.tipo}
                         </h3>
@@ -711,24 +711,24 @@ export default function OcorrenciasPage() {
                         {ocorrencia.descricao}
                       </p>
 
-                      <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-1">
+                      <div className="mt-4 space-y-2">
                         <button
                           type="button"
                           onClick={() => setOcorrenciaSelecionada(ocorrencia)}
-                          className="flex items-center justify-center gap-2 rounded-2xl border border-red-500/30 bg-red-500/10 px-3 py-3 text-xs font-bold text-red-200 transition hover:bg-red-500/20 sm:px-4 sm:text-sm"
+                          className="flex w-full items-center justify-center gap-2 rounded-2xl border border-red-500/30 bg-red-500/10 px-3 py-3 text-xs font-bold text-red-200 transition hover:bg-red-500/20 sm:px-4 sm:text-sm"
                         >
                           <Eye size={16} />
                           Ver no mapa
                         </button>
 
-                        <div className="grid grid-cols-2 gap-2">
+                        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                           {ocorrencia.status !== "Finalizada" && (
                             <button
                               type="button"
                               onClick={() =>
                                 alterarStatus(ocorrencia, "Finalizada")
                               }
-                              className="rounded-2xl bg-emerald-600 px-4 py-3 text-xs font-bold text-white transition hover:bg-emerald-500"
+                              className="w-full rounded-2xl bg-emerald-600 px-3 py-3 text-xs font-bold text-white transition hover:bg-emerald-500 sm:px-4 sm:text-sm"
                             >
                               Finalizar
                             </button>
@@ -740,7 +740,7 @@ export default function OcorrenciasPage() {
                               onClick={() =>
                                 alterarStatus(ocorrencia, "Arquivada")
                               }
-                              className="rounded-2xl border border-slate-700 px-4 py-3 text-xs font-bold text-slate-300 transition hover:bg-slate-800"
+                              className="w-full rounded-2xl border border-slate-700 px-3 py-3 text-xs font-bold text-slate-300 transition hover:bg-slate-800 sm:px-4 sm:text-sm"
                             >
                               Arquivar
                             </button>
