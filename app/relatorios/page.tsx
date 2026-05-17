@@ -190,6 +190,14 @@ export default function RelatoriosPage() {
 
     pdf.text(`Posto/Cliente: ${postoSelecionado || "Todos os postos"}`, 14, 58);
 
+    pdf.setDrawColor(220, 38, 38);
+    pdf.roundedRect(10, 52, 190, 18, 3, 3);
+
+    pdf.setFontSize(10);
+    pdf.setTextColor(90, 90, 90);
+
+    pdf.text("Documento operacional confidencial • Thanos Command", 14, 64);
+
     autoTable(pdf, {
       startY: 68,
       margin: { left: 10, right: 10 },
@@ -236,6 +244,17 @@ export default function RelatoriosPage() {
     const linhas = pdf.splitTextToSize(descricao, 175);
 
     pdf.text(linhas, 14, finalY);
+
+    const totalPaginas = pdf.getNumberOfPages();
+
+    for (let i = 1; i <= totalPaginas; i++) {
+      pdf.setPage(i);
+
+      pdf.setFontSize(9);
+      pdf.setTextColor(120, 120, 120);
+
+      pdf.text(`Thanos Command • Página ${i} de ${totalPaginas}`, 14, 290);
+    }
 
     return pdf.output("blob");
   }
@@ -323,6 +342,23 @@ export default function RelatoriosPage() {
             </p>
           </div>
 
+          <div className="mb-5 grid grid-cols-2 gap-3 lg:grid-cols-4">
+            <ResumoCard
+              title="Ocorrências"
+              value={ocorrencias.length}
+              color="red"
+            />
+
+            <ResumoCard
+              title="Selecionadas"
+              value={ocorrenciasSelecionadas.length}
+              color="blue"
+            />
+
+            <ResumoCard title="Postos" value={postos.length} color="emerald" />
+
+            <ResumoCard title="PDF Premium" value="Ativo" color="purple" />
+          </div>
           <div className="grid gap-5 lg:grid-cols-3">
             <div className="rounded-3xl border border-slate-800 bg-slate-900 p-4 shadow-xl sm:p-6">
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-red-500/10 text-red-400 sm:mb-5 sm:h-14 sm:w-14">
@@ -488,5 +524,34 @@ export default function RelatoriosPage() {
         </section>
       </main>
     </AuthGuard>
+  );
+}
+
+function ResumoCard({
+  title,
+  value,
+  color,
+}: {
+  title: string;
+  value: string | number;
+  color: "red" | "blue" | "emerald" | "purple";
+}) {
+  const colors = {
+    red: "from-red-500/10 border-red-500/20 text-red-300",
+    blue: "from-blue-500/10 border-blue-500/20 text-blue-300",
+    emerald: "from-emerald-500/10 border-emerald-500/20 text-emerald-300",
+    purple: "from-purple-500/10 border-purple-500/20 text-purple-300",
+  };
+
+  return (
+    <div
+      className={`rounded-3xl border bg-gradient-to-br to-slate-900 p-4 shadow-xl ${colors[color]}`}
+    >
+      <p className="text-xs font-bold uppercase tracking-wide text-slate-400">
+        {title}
+      </p>
+
+      <h2 className="mt-3 text-3xl font-black text-white">{value}</h2>
+    </div>
   );
 }
