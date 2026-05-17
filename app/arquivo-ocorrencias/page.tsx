@@ -76,6 +76,10 @@ function obterCoordenadaOcorrencia(ocorrencia: Ocorrencia | null) {
 export default function ArquivoOcorrenciasPage() {
   const [ocorrencias, setOcorrencias] = useState<Ocorrencia[]>([]);
   const [busca, setBusca] = useState("");
+  const [paginaAtual, setPaginaAtual] = useState(1);
+
+  const ITENS_POR_PAGINA = 6;
+
   const [ocorrenciaAberta, setOcorrenciaAberta] = useState<Ocorrencia | null>(
     null,
   );
@@ -113,6 +117,21 @@ export default function ArquivoOcorrenciasPage() {
       );
     });
   }, [busca, ocorrencias]);
+
+  useEffect(() => {
+    setPaginaAtual(1);
+  }, [busca]);
+
+  const totalPaginas = Math.ceil(
+    ocorrenciasFiltradas.length / ITENS_POR_PAGINA,
+  );
+
+  const ocorrenciasPaginadas = useMemo(() => {
+    const inicio = (paginaAtual - 1) * ITENS_POR_PAGINA;
+    const fim = inicio + ITENS_POR_PAGINA;
+
+    return ocorrenciasFiltradas.slice(inicio, fim);
+  }, [ocorrenciasFiltradas, paginaAtual]);
 
   const comGps = useMemo(() => {
     return ocorrencias.filter((item) => obterCoordenadaOcorrencia(item)).length;
@@ -340,7 +359,7 @@ export default function ArquivoOcorrenciasPage() {
                 </div>
               )}
 
-              {ocorrenciasFiltradas.map((ocorrencia) => (
+              {ocorrenciasPaginadas.map((ocorrencia) => (
                 <div
                   key={ocorrencia.id}
                   className="relative overflow-hidden rounded-3xl border border-slate-800 bg-slate-950 shadow-xl"
@@ -423,6 +442,57 @@ export default function ArquivoOcorrenciasPage() {
                 </div>
               ))}
             </div>
+
+            {totalPaginas > 1 && (
+              <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
+                <button
+                  type="button"
+                  disabled={paginaAtual === 1}
+                  onClick={() =>
+                    setPaginaAtual((prev) => Math.max(prev - 1, 1))
+                  }
+                  className="w-full rounded-2xl border border-slate-700 px-4 py-3 text-sm font-bold text-slate-300 transition hover:bg-slate-800 disabled:opacity-40 sm:w-auto"
+                >
+                  Anterior
+                </button>
+
+                <div className="flex flex-wrap items-center justify-center gap-2">
+                  {Array.from({ length: totalPaginas }).map((_, index) => {
+                    const pagina = index + 1;
+
+                    return (
+                      <button
+                        key={pagina}
+                        type="button"
+                        onClick={() => setPaginaAtual(pagina)}
+                        className={`h-10 w-10 rounded-2xl text-sm font-black transition ${
+                          paginaAtual === pagina
+                            ? "bg-red-600 text-white"
+                            : "border border-slate-700 text-slate-300 hover:bg-slate-800"
+                        }`}
+                      >
+                        {pagina}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                <button
+                  type="button"
+                  disabled={paginaAtual === totalPaginas}
+                  onClick={() =>
+                    setPaginaAtual((prev) => Math.min(prev + 1, totalPaginas))
+                  }
+                  className="w-full rounded-2xl border border-slate-700 px-4 py-3 text-sm font-bold text-slate-300 transition hover:bg-slate-800 disabled:opacity-40 sm:w-auto"
+                >
+                  Próxima
+                </button>
+
+                <p className="text-xs font-bold text-slate-500 sm:ml-2">
+                  Página {paginaAtual} de {totalPaginas}
+                </p>
+              </div>
+            )}
           </div>
         </section>
       </main>
