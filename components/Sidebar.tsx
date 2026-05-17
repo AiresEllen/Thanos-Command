@@ -15,6 +15,7 @@ import {
   Settings,
   LogOut,
   BriefcaseBusiness,
+  Archive,
   Menu,
   X,
 } from "lucide-react";
@@ -27,6 +28,7 @@ const links = [
   { name: "Postos", href: "/postos", icon: MapPinned },
   { name: "Rondas", href: "/rondas", icon: Radar },
   { name: "Ocorrências", href: "/ocorrencias", icon: AlertTriangle },
+  { name: "Arquivo", href: "/arquivo-ocorrencias", icon: Archive },
   { name: "Extras", href: "/servicos-extras", icon: BriefcaseBusiness },
   { name: "Relatórios", href: "/relatorios", icon: FileText },
   { name: "Config.", href: "/configuracoes", icon: Settings },

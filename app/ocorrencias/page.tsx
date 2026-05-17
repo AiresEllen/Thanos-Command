@@ -30,9 +30,9 @@ import {
   X,
 } from "lucide-react";
 
-import { AuthGuard } from "../../components/AuthGuard";
-import { Sidebar } from "../../components/Sidebar";
-import { db } from "../../lib/firebase";
+import { AuthGuard } from "@/components/AuthGuard";
+import { Sidebar } from "@/components/Sidebar";
+import { db } from "@/lib/firebase";
 import { uploadImage } from "../../services/cloudinary";
 
 type Localizacao = {
