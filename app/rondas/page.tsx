@@ -89,6 +89,10 @@ export default function RondasPage() {
 
   const [busca, setBusca] = useState("");
   const [loading, setLoading] = useState(false);
+  const [paginaAtual, setPaginaAtual] = useState(1);
+
+  const ITENS_POR_PAGINA = 6;
+
   const [rondaSelecionada, setRondaSelecionada] = useState<Ronda | null>(null);
   const mapaOperacionalRef = useRef<HTMLDivElement | null>(null);
 
@@ -174,6 +178,19 @@ export default function RondasPage() {
       );
     });
   }, [busca, rondas]);
+
+  useEffect(() => {
+    setPaginaAtual(1);
+  }, [busca]);
+
+  const totalPaginas = Math.ceil(rondasFiltradas.length / ITENS_POR_PAGINA);
+
+  const rondasPaginadas = useMemo(() => {
+    const inicio = (paginaAtual - 1) * ITENS_POR_PAGINA;
+    const fim = inicio + ITENS_POR_PAGINA;
+
+    return rondasFiltradas.slice(inicio, fim);
+  }, [rondasFiltradas, paginaAtual]);
 
   const totalPontos = useMemo(() => {
     return rondas.reduce(
@@ -666,7 +683,7 @@ export default function RondasPage() {
                   </div>
                 )}
 
-                {rondasFiltradas.map((ronda) => (
+                {rondasPaginadas.map((ronda) => (
                   <div
                     key={ronda.id}
                     className={`relative rounded-3xl border p-4 transition sm:p-5 ${
@@ -789,6 +806,57 @@ export default function RondasPage() {
                   </div>
                 ))}
               </div>
+
+              {totalPaginas > 1 && (
+                <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
+                  <button
+                    type="button"
+                    disabled={paginaAtual === 1}
+                    onClick={() =>
+                      setPaginaAtual((prev) => Math.max(prev - 1, 1))
+                    }
+                    className="w-full rounded-2xl border border-slate-700 px-4 py-3 text-sm font-bold text-slate-300 transition hover:bg-slate-800 disabled:opacity-40 sm:w-auto"
+                  >
+                    Anterior
+                  </button>
+
+                  <div className="flex flex-wrap items-center justify-center gap-2">
+                    {Array.from({ length: totalPaginas }).map((_, index) => {
+                      const pagina = index + 1;
+
+                      return (
+                        <button
+                          key={pagina}
+                          type="button"
+                          onClick={() => setPaginaAtual(pagina)}
+                          className={`h-10 w-10 rounded-2xl text-sm font-black transition ${
+                            paginaAtual === pagina
+                              ? "bg-red-600 text-white"
+                              : "border border-slate-700 text-slate-300 hover:bg-slate-800"
+                          }`}
+                        >
+                          {pagina}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  <button
+                    type="button"
+                    disabled={paginaAtual === totalPaginas}
+                    onClick={() =>
+                      setPaginaAtual((prev) => Math.min(prev + 1, totalPaginas))
+                    }
+                    className="w-full rounded-2xl border border-slate-700 px-4 py-3 text-sm font-bold text-slate-300 transition hover:bg-slate-800 disabled:opacity-40 sm:w-auto"
+                  >
+                    Próxima
+                  </button>
+
+                  <p className="text-xs font-bold text-slate-500 sm:ml-2">
+                    Página {paginaAtual} de {totalPaginas}
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </section>
