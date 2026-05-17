@@ -147,14 +147,12 @@ export default function ServicosExtrasPage() {
       if (filtroPeriodo === "7 dias") {
         const seteDiasAtras = new Date();
         seteDiasAtras.setDate(hoje.getDate() - 7);
-
         periodoValido = !!item.data && new Date(item.data) >= seteDiasAtras;
       }
 
       if (filtroPeriodo === "30 dias") {
         const trintaDiasAtras = new Date();
         trintaDiasAtras.setDate(hoje.getDate() - 30);
-
         periodoValido = !!item.data && new Date(item.data) >= trintaDiasAtras;
       }
 
@@ -419,33 +417,55 @@ export default function ServicosExtrasPage() {
                 />
 
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                  <input
-                    value={data}
-                    onChange={(e) => setData(e.target.value)}
-                    type="date"
-                    className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-white outline-none focus:border-red-500"
-                  />
-                  <input
-                    value={valor}
-                    onChange={(e) => setValor(e.target.value)}
-                    placeholder="Valor"
-                    className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-white outline-none focus:border-red-500"
-                  />
+                  <label className="block">
+                    <span className="mb-2 block text-xs font-bold text-slate-400">
+                      Data do extra
+                    </span>
+                    <input
+                      value={data}
+                      onChange={(e) => setData(e.target.value)}
+                      type="date"
+                      className="block h-14 w-full min-w-0 rounded-2xl border border-slate-700 bg-slate-950 px-4 text-sm text-white outline-none focus:border-red-500"
+                    />
+                  </label>
+
+                  <label className="block">
+                    <span className="mb-2 block text-xs font-bold text-slate-400">
+                      Valor
+                    </span>
+                    <input
+                      value={valor}
+                      onChange={(e) => setValor(e.target.value)}
+                      placeholder="Ex: 200,00"
+                      className="block h-14 w-full min-w-0 rounded-2xl border border-slate-700 bg-slate-950 px-4 text-sm text-white outline-none focus:border-red-500"
+                    />
+                  </label>
                 </div>
 
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                  <input
-                    value={horaInicio}
-                    onChange={(e) => setHoraInicio(e.target.value)}
-                    type="time"
-                    className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-white outline-none focus:border-red-500"
-                  />
-                  <input
-                    value={horaFim}
-                    onChange={(e) => setHoraFim(e.target.value)}
-                    type="time"
-                    className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-white outline-none focus:border-red-500"
-                  />
+                  <label className="block">
+                    <span className="mb-2 block text-xs font-bold text-slate-400">
+                      Hora de início
+                    </span>
+                    <input
+                      value={horaInicio}
+                      onChange={(e) => setHoraInicio(e.target.value)}
+                      type="time"
+                      className="block h-14 w-full min-w-0 rounded-2xl border border-slate-700 bg-slate-950 px-4 text-sm text-white outline-none focus:border-red-500"
+                    />
+                  </label>
+
+                  <label className="block">
+                    <span className="mb-2 block text-xs font-bold text-slate-400">
+                      Hora de fim
+                    </span>
+                    <input
+                      value={horaFim}
+                      onChange={(e) => setHoraFim(e.target.value)}
+                      type="time"
+                      className="block h-14 w-full min-w-0 rounded-2xl border border-slate-700 bg-slate-950 px-4 text-sm text-white outline-none focus:border-red-500"
+                    />
+                  </label>
                 </div>
 
                 <textarea
