@@ -371,7 +371,7 @@ export default function ServicosExtrasPage() {
                   ))}
                 </select>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                   <input
                     value={re}
                     readOnly
@@ -418,7 +418,7 @@ export default function ServicosExtrasPage() {
                   className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-white outline-none focus:border-red-500"
                 />
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                   <input
                     value={data}
                     onChange={(e) => setData(e.target.value)}
@@ -433,7 +433,7 @@ export default function ServicosExtrasPage() {
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                   <input
                     value={horaInicio}
                     onChange={(e) => setHoraInicio(e.target.value)}
