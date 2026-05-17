@@ -88,6 +88,8 @@ export default function RondasPage() {
   const [observacoes, setObservacoes] = useState("");
 
   const [busca, setBusca] = useState("");
+  const [filtroPeriodo, setFiltroPeriodo] = useState("Todos");
+  const [filtroStatus, setFiltroStatus] = useState("Todos");
   const [loading, setLoading] = useState(false);
   const [paginaAtual, setPaginaAtual] = useState(1);
 
@@ -165,23 +167,57 @@ export default function RondasPage() {
   const rondasFiltradas = useMemo(() => {
     const termo = busca.trim().toLowerCase();
 
-    if (!termo) return rondas;
-
     return rondas.filter((ronda) => {
-      return (
+      const dataRonda = ronda.inicioEm || ronda.finalizadaEm || "";
+
+      const agora = new Date();
+      const hoje = agora.toLocaleDateString("pt-BR");
+
+      let periodoValido = true;
+
+      if (filtroPeriodo === "Hoje") {
+        periodoValido = dataRonda.includes(hoje);
+      }
+
+      if (filtroPeriodo === "7 dias") {
+        const seteDiasAtras = new Date();
+        seteDiasAtras.setDate(agora.getDate() - 7);
+
+        periodoValido =
+          !!dataRonda &&
+          new Date(dataRonda.split(" ")[0].split("/").reverse().join("-")) >=
+            seteDiasAtras;
+      }
+
+      if (filtroPeriodo === "30 dias") {
+        const trintaDiasAtras = new Date();
+        trintaDiasAtras.setDate(agora.getDate() - 30);
+
+        periodoValido =
+          !!dataRonda &&
+          new Date(dataRonda.split(" ")[0].split("/").reverse().join("-")) >=
+            trintaDiasAtras;
+      }
+
+      const statusValido =
+        filtroStatus === "Todos" || ronda.status === filtroStatus;
+
+      const buscaValida =
+        !termo ||
         (ronda.re || "").toLowerCase().includes(termo) ||
         (ronda.vigilante || "").toLowerCase().includes(termo) ||
         (ronda.posto || "").toLowerCase().includes(termo) ||
         (ronda.turno || "").toLowerCase().includes(termo) ||
         (ronda.status || "").toLowerCase().includes(termo) ||
-        (ronda.observacoes || "").toLowerCase().includes(termo)
-      );
+        (ronda.observacoes || "").toLowerCase().includes(termo);
+
+      return periodoValido && statusValido && buscaValida;
     });
-  }, [busca, rondas]);
+  }, [busca, rondas, filtroPeriodo, filtroStatus]);
 
   useEffect(() => {
     setPaginaAtual(1);
-  }, [busca]);
+  }, [busca, filtroPeriodo, filtroStatus]);
 
   const totalPaginas = Math.ceil(rondasFiltradas.length / ITENS_POR_PAGINA);
 
@@ -673,6 +709,31 @@ export default function RondasPage() {
                     placeholder="Pesquisar RE, vigilante..."
                     className="w-full rounded-2xl border border-slate-700 bg-slate-950 py-3 pl-11 pr-4 text-white outline-none focus:border-red-500"
                   />
+                </div>
+
+                <div className="grid grid-cols-2 gap-3 md:w-auto">
+                  <select
+                    value={filtroPeriodo}
+                    onChange={(e) => setFiltroPeriodo(e.target.value)}
+                    className="rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-white outline-none focus:border-red-500"
+                  >
+                    <option>Todos</option>
+                    <option>Hoje</option>
+                    <option>7 dias</option>
+                    <option>30 dias</option>
+                  </select>
+
+                  <select
+                    value={filtroStatus}
+                    onChange={(e) => setFiltroStatus(e.target.value)}
+                    className="rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-white outline-none focus:border-red-500"
+                  >
+                    <option>Todos</option>
+                    <option>Pendente</option>
+                    <option>Em andamento</option>
+                    <option>Concluída</option>
+                    <option>Arquivada</option>
+                  </select>
                 </div>
               </div>
 
