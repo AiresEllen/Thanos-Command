@@ -49,6 +49,10 @@ export default function DashboardPage() {
 
   const [postosAltoRisco, setPostosAltoRisco] = useState(0);
 
+  const [ocorrenciasCriticas, setOcorrenciasCriticas] = useState(0);
+  const [eficienciaOperacional, setEficienciaOperacional] = useState(0);
+  const [taxaConclusaoRondas, setTaxaConclusaoRondas] = useState(0);
+
   async function carregarDashboard() {
     const vigilantesSnapshot = await getDocs(collection(db, "vigilantes"));
     const postosSnapshot = await getDocs(collection(db, "postos"));
@@ -90,6 +94,25 @@ export default function DashboardPage() {
     );
 
     setPostosAltoRisco(postos.filter((p: any) => p.risco === "Alto").length);
+
+    const criticas = ocorrencias.filter(
+      (o: any) => o.prioridade === "Crítica" || o.prioridade === "Alta",
+    ).length;
+
+    setOcorrenciasCriticas(criticas);
+
+    const totalRondasSistema = rondas.length || 1;
+
+    const taxa =
+      (rondas.filter((r: any) => r.status === "Concluída").length /
+        totalRondasSistema) *
+      100;
+
+    setTaxaConclusaoRondas(Number(taxa.toFixed(0)));
+
+    const eficiencia = ((ativos || 1) / (vigilantes.length || 1)) * 100;
+
+    setEficienciaOperacional(Number(eficiencia.toFixed(0)));
   }
 
   useEffect(() => {
@@ -209,6 +232,50 @@ export default function DashboardPage() {
               value={postosAltoRisco}
               color="bg-orange-500/10 text-orange-300 border-orange-500/20"
             />
+          </div>
+
+          <div className="mt-5 grid gap-4 lg:grid-cols-3">
+            <div className="rounded-3xl border border-red-500/10 bg-gradient-to-br from-red-500/10 to-slate-900 p-5 shadow-xl">
+              <p className="text-sm font-bold text-red-300">
+                Ocorrências críticas
+              </p>
+
+              <h2 className="mt-3 text-5xl font-black text-white">
+                {ocorrenciasCriticas}
+              </h2>
+
+              <p className="mt-3 text-xs text-slate-400">
+                Prioridade alta e crítica em monitoramento.
+              </p>
+            </div>
+
+            <div className="rounded-3xl border border-emerald-500/10 bg-gradient-to-br from-emerald-500/10 to-slate-900 p-5 shadow-xl">
+              <p className="text-sm font-bold text-emerald-300">
+                Eficiência operacional
+              </p>
+
+              <h2 className="mt-3 text-5xl font-black text-white">
+                {eficienciaOperacional}%
+              </h2>
+
+              <p className="mt-3 text-xs text-slate-400">
+                Baseado em vigilantes ativos na operação.
+              </p>
+            </div>
+
+            <div className="rounded-3xl border border-blue-500/10 bg-gradient-to-br from-blue-500/10 to-slate-900 p-5 shadow-xl">
+              <p className="text-sm font-bold text-blue-300">
+                Taxa de conclusão
+              </p>
+
+              <h2 className="mt-3 text-5xl font-black text-white">
+                {taxaConclusaoRondas}%
+              </h2>
+
+              <p className="mt-3 text-xs text-slate-400">
+                Rondas concluídas com sucesso.
+              </p>
+            </div>
           </div>
 
           <div className="mt-5 grid gap-5 xl:grid-cols-2">
