@@ -78,7 +78,11 @@ export default function ServicosExtrasPage() {
   const [valor, setValor] = useState("");
   const [observacoes, setObservacoes] = useState("");
   const [buscaServico, setBuscaServico] = useState("");
+  const [filtroPeriodo, setFiltroPeriodo] = useState("Todos");
+  const [paginaAtual, setPaginaAtual] = useState(1);
   const [loading, setLoading] = useState(false);
+
+  const ITENS_POR_PAGINA = 6;
 
   async function carregarVigilantes() {
     const q = query(collection(db, "vigilantes"), orderBy("nome", "asc"));
@@ -131,19 +135,54 @@ export default function ServicosExtrasPage() {
   const servicosFiltrados = useMemo(() => {
     const termo = buscaServico.trim().toLowerCase();
 
-    if (!termo) return servicos;
-
     return servicos.filter((item) => {
-      return (
+      const hoje = new Date();
+      let periodoValido = true;
+
+      if (filtroPeriodo === "Hoje") {
+        const dataHoje = hoje.toISOString().split("T")[0];
+        periodoValido = item.data === dataHoje;
+      }
+
+      if (filtroPeriodo === "7 dias") {
+        const seteDiasAtras = new Date();
+        seteDiasAtras.setDate(hoje.getDate() - 7);
+
+        periodoValido = !!item.data && new Date(item.data) >= seteDiasAtras;
+      }
+
+      if (filtroPeriodo === "30 dias") {
+        const trintaDiasAtras = new Date();
+        trintaDiasAtras.setDate(hoje.getDate() - 30);
+
+        periodoValido = !!item.data && new Date(item.data) >= trintaDiasAtras;
+      }
+
+      const buscaValida =
+        !termo ||
         (item.nomePacote || "").toLowerCase().includes(termo) ||
         (item.re || "").toLowerCase().includes(termo) ||
         (item.vigilante || "").toLowerCase().includes(termo) ||
         (item.localExtra || "").toLowerCase().includes(termo) ||
         (item.data || "").toLowerCase().includes(termo) ||
-        (item.postoAtual || "").toLowerCase().includes(termo)
-      );
+        (item.postoAtual || "").toLowerCase().includes(termo);
+
+      return periodoValido && buscaValida;
     });
-  }, [buscaServico, servicos]);
+  }, [buscaServico, servicos, filtroPeriodo]);
+
+  useEffect(() => {
+    setPaginaAtual(1);
+  }, [buscaServico, filtroPeriodo]);
+
+  const totalPaginas = Math.ceil(servicosFiltrados.length / ITENS_POR_PAGINA);
+
+  const servicosPaginados = useMemo(() => {
+    const inicio = (paginaAtual - 1) * ITENS_POR_PAGINA;
+    const fim = inicio + ITENS_POR_PAGINA;
+
+    return servicosFiltrados.slice(inicio, fim);
+  }, [servicosFiltrados, paginaAtual]);
 
   function selecionarVigilante(id: string) {
     setVigilanteSelecionadoId(id);
@@ -470,6 +509,17 @@ export default function ServicosExtrasPage() {
                     className="w-full rounded-2xl border border-slate-700 bg-slate-950 py-3 pl-11 pr-4 text-sm text-white outline-none focus:border-red-500"
                   />
                 </div>
+
+                <select
+                  value={filtroPeriodo}
+                  onChange={(e) => setFiltroPeriodo(e.target.value)}
+                  className="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm text-white outline-none focus:border-red-500 md:max-w-[180px]"
+                >
+                  <option>Todos</option>
+                  <option>Hoje</option>
+                  <option>7 dias</option>
+                  <option>30 dias</option>
+                </select>
               </div>
 
               <div className="mt-5 grid gap-3 sm:mt-6 sm:gap-4 md:grid-cols-2">
@@ -479,7 +529,7 @@ export default function ServicosExtrasPage() {
                   </div>
                 )}
 
-                {servicosFiltrados.map((servico) => (
+                {servicosPaginados.map((servico) => (
                   <div
                     key={servico.id}
                     className="relative rounded-3xl border border-slate-800 bg-slate-950 p-4 shadow-xl sm:p-5"
@@ -558,6 +608,57 @@ export default function ServicosExtrasPage() {
                   </div>
                 ))}
               </div>
+
+              {totalPaginas > 1 && (
+                <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
+                  <button
+                    type="button"
+                    disabled={paginaAtual === 1}
+                    onClick={() =>
+                      setPaginaAtual((prev) => Math.max(prev - 1, 1))
+                    }
+                    className="w-full rounded-2xl border border-slate-700 px-4 py-3 text-sm font-bold text-slate-300 transition hover:bg-slate-800 disabled:opacity-40 sm:w-auto"
+                  >
+                    Anterior
+                  </button>
+
+                  <div className="flex flex-wrap items-center justify-center gap-2">
+                    {Array.from({ length: totalPaginas }).map((_, index) => {
+                      const pagina = index + 1;
+
+                      return (
+                        <button
+                          key={pagina}
+                          type="button"
+                          onClick={() => setPaginaAtual(pagina)}
+                          className={`h-10 w-10 rounded-2xl text-sm font-black transition ${
+                            paginaAtual === pagina
+                              ? "bg-red-600 text-white"
+                              : "border border-slate-700 text-slate-300 hover:bg-slate-800"
+                          }`}
+                        >
+                          {pagina}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  <button
+                    type="button"
+                    disabled={paginaAtual === totalPaginas}
+                    onClick={() =>
+                      setPaginaAtual((prev) => Math.min(prev + 1, totalPaginas))
+                    }
+                    className="w-full rounded-2xl border border-slate-700 px-4 py-3 text-sm font-bold text-slate-300 transition hover:bg-slate-800 disabled:opacity-40 sm:w-auto"
+                  >
+                    Próxima
+                  </button>
+
+                  <p className="text-xs font-bold text-slate-500 sm:ml-2">
+                    Página {paginaAtual} de {totalPaginas}
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </section>
