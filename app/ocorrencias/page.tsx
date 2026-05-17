@@ -146,7 +146,7 @@ export default function OcorrenciasPage() {
         ...docItem.data(),
       })) as Ocorrencia[];
 
-      setOcorrencias(lista);
+      setOcorrencias(lista.filter((item) => item.status !== "Arquivada"));
 
       setOcorrenciaSelecionada((selecionadaAtual) => {
         if (!selecionadaAtual) return lista[0] || null;
